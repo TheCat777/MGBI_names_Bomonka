@@ -1,21 +1,14 @@
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
+
 #include <iostream>
 
-// GLFW
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+int windowWidth = 640;
+int windowHeight = 480;
 
-typedef void (*t2)(GLbitfield);
-typedef void (*t1)(GLclampf, GLclampf, GLclampf, GLclampf);
-
-// Function prototypes
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
-
-// Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
 double lastTime;
 int nbFrames;
-
 
 void showFPS(GLFWwindow *pWindow)
 {
@@ -33,47 +26,54 @@ void showFPS(GLFWwindow *pWindow)
     }
 }
 
-// The MAIN function, from here we start the application and run the game loop
+void glWindowSizeCallback(GLFWwindow* window, int width, int height) {
+    windowWidth = width;
+    windowHeight = height;
+    glViewport(0, 0, windowWidth, windowHeight);
+}
+
+void glKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+    if (key == GLFW_KEY_ESCAPE) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+}
+
 int main()
 {
-    std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
-    // Init GLFW
+    /* Initialize the library */
     if (!glfwInit()) {
-        printf("failed to initialize GLFW.\n");
         return -1;
     }
-    // Set all the required options for GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    // Create a GLFWwindow object that we can use for GLFW's functions
-    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "LearnOpenGL", nullptr, nullptr);
-    if (window == nullptr)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    /* Create a windowed mode window and its OpenGL context */
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "PTP", NULL, NULL);
+    if (!window) {
+        std::cout << "glfwCreateWindow failed" << std::endl;
         glfwTerminate();
         return -1;
     }
+
+    glfwSetWindowSizeCallback(window, glWindowSizeCallback);
+    glfwSetKeyCallback(window, glKeyCallback);
+
+    /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
-    // Set the required callback functions
-    glfwSetKeyCallback(window, key_callback);
+    if (!gladLoadGL()) {
+        std::cout << "LOAD GLAD FAILED" << std::endl;
+        return -1;
+    }
+    std::cout << "Renderer " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "OpenGL version " << glGetString(GL_VERSION) << std::endl;
 
-    t1 glClearColor = (t1) glfwGetProcAddress("glClearColor");
-    t2 glClear = (t2) glfwGetProcAddress("glClear");
-
-    // Define the viewport dimensions
-    int width, height;
-    glfwGetFramebufferSize(window, &width, &height);
-
-    // Game loop
     while (!glfwWindowShouldClose(window))
     {
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
         glfwPollEvents();
-
         // Render
         // Clear the colorbuffer
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -83,15 +83,6 @@ int main()
         glfwSwapBuffers(window);
     }
 
-    // Terminate GLFW, clearing any resources allocated by GLFW.
     glfwTerminate();
     return 0;
-}
-
-// Is called whenever a key is pressed/released via GLFW
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-    std::cout << key << std::endl;
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
 }
