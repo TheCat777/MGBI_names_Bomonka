@@ -43,7 +43,7 @@ int main()
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     /* Create a windowed mode window and its OpenGL context */
-    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "PTP", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "PTP", glfwGetPrimaryMonitor(), NULL);
     if (!window) {
         std::cout << "glfwCreateWindow failed" << std::endl;
         glfwTerminate();
