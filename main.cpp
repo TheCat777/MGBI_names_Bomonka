@@ -1,12 +1,9 @@
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
-
+#include <string>
 #include <iostream>
 
-int windowWidth = 640;
-int windowHeight = 480;
-
-const GLuint WIDTH = 800, HEIGHT = 600;
+const GLuint windowWidth = 800, windowHeight = 600;
 double lastTime;
 int nbFrames;
 
@@ -26,11 +23,6 @@ void showFPS(GLFWwindow *pWindow)
     }
 }
 
-void glWindowSizeCallback(GLFWwindow* window, int width, int height) {
-    windowWidth = width;
-    windowHeight = height;
-    glViewport(0, 0, windowWidth, windowHeight);
-}
 
 void glKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
     if (key == GLFW_KEY_ESCAPE) {
@@ -48,6 +40,7 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     /* Create a windowed mode window and its OpenGL context */
     GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "PTP", NULL, NULL);
@@ -57,7 +50,6 @@ int main()
         return -1;
     }
 
-    glfwSetWindowSizeCallback(window, glWindowSizeCallback);
     glfwSetKeyCallback(window, glKeyCallback);
 
     /* Make the window's context current */
