@@ -1,9 +1,9 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "gladLib/include/glad/glad.h"
+#include "g-truc-glm-33b0eb9/glm/glm.hpp"
+#include "g-truc-glm-33b0eb9/glm/gtc/matrix_transform.hpp"
 
 #include <vector>
 
