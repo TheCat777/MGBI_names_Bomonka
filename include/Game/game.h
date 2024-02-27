@@ -173,7 +173,7 @@ private:
     }
 
     [[nodiscard]] Shader set_shader() const{
-        Shader shader((Path.string() + R"(\shaders\text_vs.glsl)").c_str(), (Path.string() + R"(\shaders\text_fs.glsl)").c_str());
+        Shader shader((Path.string() + R"(\resources\shaders\text_vs.glsl)").c_str(), (Path.string() + R"(\resources\shaders\text_fs.glsl)").c_str());
         glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WIDTH), 0.0f, static_cast<float>(HEIGHT));
         shader.use();
         glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
