@@ -11,6 +11,10 @@
 #if !defined(_glfw3_h_)
 #include <GLFW/glfw3.h>
 #endif
+#if !defined(SHADER_H)
+#include "shader_s.h"
+#include "stb_image.h"
+#endif
 #if !defined(FTHEADER_H_)
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -21,9 +25,14 @@
 #if !defined(_GLIBCXX_IOSTREAM)
 #include <iostream>
 #endif
+#if !defined(_GLIBCXX_FILESYSTEM)
+#include <filesystem>
+#endif
 #include "g-truc-glm-33b0eb9/glm/gtc/matrix_transform.hpp"
 #include "g-truc-glm-33b0eb9/glm/gtc/type_ptr.hpp"
-#include "shader.h"
+
+
+
 
 
 struct Character {
@@ -118,10 +127,11 @@ public:
 
 class Game{
 private:
-    const int WIDTH = 1920;
-    const int HEIGHT = 1080;
+    int WIDTH = 1920;
+    int HEIGHT = 1080;
     GLFWwindow* window = nullptr;
     unsigned int VAO = 0, VBO = 0;
+    std::filesystem::path Path = std::filesystem::current_path().parent_path();
 
     static void initGLFW(){
         glfwInit();
@@ -163,7 +173,7 @@ private:
     }
 
     [[nodiscard]] Shader set_shader() const{
-        Shader shader("D:\\Users\\The Cat\\ClionProjects\\MGBI names Bomonka\\shaders\\text.vs", "D:\\Users\\The Cat\\ClionProjects\\MGBI names Bomonka\\shaders\\text.fs");
+        Shader shader((Path.string() + R"(\shaders\text_vs.glsl)").c_str(), (Path.string() + R"(\shaders\text_fs.glsl)").c_str());
         glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(WIDTH), 0.0f, static_cast<float>(HEIGHT));
         shader.use();
         glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -265,5 +275,6 @@ public:
         main_loop(shader);
     }
 };
+
 
 #endif
