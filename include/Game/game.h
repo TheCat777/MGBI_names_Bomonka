@@ -129,6 +129,7 @@ class Game{
 private:
     int WIDTH = 1920;
     int HEIGHT = 1080;
+    bool FULLSCREEN = true;
     GLFWwindow* window = nullptr;
     unsigned int VAO = 0, VBO = 0;
     std::filesystem::path Path = std::filesystem::current_path().parent_path();
@@ -150,8 +151,10 @@ private:
     }
 
     bool create_window(){
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Выживание в Бомонке", nullptr, nullptr);
-        //window = glfwCreateWindow(WIDTH, HEIGHT, "Выживание в Бомомнке", glfwGetPrimaryMonitor(), nullptr);
+        if (FULLSCREEN)
+            window = glfwCreateWindow(WIDTH, HEIGHT, "Выживание в Бомомнке", glfwGetPrimaryMonitor(), nullptr);
+        else
+            window = glfwCreateWindow(WIDTH, HEIGHT, "Выживание в Бомонке", nullptr, nullptr);
         if (window == nullptr){
             std::cerr << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
@@ -179,6 +182,7 @@ private:
         glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
         return shader;
     }
+
     void initVAO_VBO(){
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
@@ -195,7 +199,6 @@ private:
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
     }
-
 
     void RenderText(Shader shader, std::basic_string<wchar_t> text, float x, float y, float scale, glm::vec3 color, Glifs gl) const{
         // Активируем соответствующее состояние рендеринга
@@ -242,7 +245,6 @@ private:
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
-
     void main_loop(Shader shader){
         Glifs gl;
         while (!glfwWindowShouldClose(window))
@@ -265,8 +267,29 @@ private:
         glfwTerminate();
     }
 
+    void execute(const std::string& var, int val){
+        if (var == "WIDTH"){ WIDTH = val; return;}
+        if (var == "HEIGHT"){ HEIGHT = val; return;}
+        if (var == "FULLSCREEN"){ FULLSCREEN = (bool)val; return;}
+    }
+
+    bool load_settings(){
+        try {
+            std::ifstream file((Path.string() + R"(\resources\settings)").c_str());
+            std::string var; int val;
+            while (!file.eof()) {
+                file >> var >> val;
+                execute(var, val);
+            }
+        }catch (...){
+            return false;
+        }
+        return true;
+    }
+
 public:
     Game(){
+        if (!load_settings()) return;
         initGLFW();
         if (!create_window()) return;
         set_OPENGL();
