@@ -11,120 +11,13 @@
 #include <iostream>
 #include <filesystem>
 
-class Texture{
-private:
-    sf::Texture texture;
-    sf::Sprite sprite;
-public:
-    Texture(const std::string& path){
-        texture.loadFromFile(path);
-        sprite.setTexture(texture);
-    }
-    void draw(sf::RenderWindow & window){
-        window.draw(sprite);
-    }
-};
+#include "Texture.h"
+#include "Text.h"
+#include "Scene.h"
 
-class Base_Scene{
-public:
-    std::vector<sf::Sprite> Sprites;
-    std::vector<sf::Texture> Textures;
-    std::vector<Texture> Textures_;
-    std::vector<sf::Text> Texts;
-
-    void draw_all(sf::RenderWindow & window){
-        window.clear();
-        for (const auto& sprite : Sprites)
-            //window.draw(sprite);
-        for (const auto& text : Texts) {
-            window.draw(text);
-        }
-        for (auto& texture : Textures_)
-            texture.draw(window);
-        window.display();
-    }
-    void events(sf::RenderWindow & window){
-        for (auto event = sf::Event{}; window.pollEvent(event);)
-        {
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape)
-                {
-                    window.close();
-                }
-            }
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
-    }
-protected:
-    void add_sprite(const sf::Sprite& new_sprite){
-        Sprites.push_back(new_sprite);
-    }
-    void add_text(const sf::Text& new_text){
-        Texts.push_back(new_text);
-    }
-    void add_texture(const sf::Texture& new_texture){
-        Textures.push_back(new_texture);
-    }
-    void add_(const Texture& texture){
-        Textures_.push_back(texture);
-    }
-public:
-    void load(){};
-    Base_Scene(){
-        load();
-    }
-    void start(sf::RenderWindow & window){
-        while (window.isOpen()){
-            events(window);
-            draw_all(window);
-        }
-    }
-};
-
-#define AppW 1366
-#define AppH 768
+#define AppW 1920
+#define AppH 1080
 std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
-
-class Loading_Scene : public Base_Scene{
-public:
-    void load(){
-        //_________________СОЗДАЮ КАРТИНКУ_____________
-        sf::Texture texture;
-        texture.loadFromFile(path_to_game + "\\resources\\logo.png");
-        add_texture(texture);
-        sf::Sprite sprite(Textures[Textures.size()-1]);
-
-
-        //_________________ОБЪЯВЛЯЮ ШРИФТ_____________
-        sf::Font font;
-        if (!font.loadFromFile(path_to_game + "\\resources\\wgs.ttf"))
-        {
-            std::cerr << "Fail to load font" << std::endl;
-            // ошибка...
-        }
-        //_________________СОЗДАЮ ТЕКСТ_____________
-        sf::Text text;
-        text.setFont(font); // выбираем шрифт // font это sf::Font
-        text.setString("Hello"); // выбираем отображаемую строку
-        text.setCharacterSize(42); // в пикселях, а не точках! // выбираем размер символов
-        text.setColor(sf::Color::Black); // выбираем цвет
-        text.setStyle(sf::Text::Bold | sf::Text::Underlined); // выбираем стиль текста
-
-        //_________________ВЫРАВНИВАЕМ ПО ЦЕНТРУ ТЕКСТ_____________
-        sf::FloatRect textRect = text.getLocalBounds();
-        text.setOrigin(textRect.left + textRect.width/2.0f,
-                       textRect.top  + textRect.height/2.0f);
-        text.setPosition(sf::Vector2f(AppW/2.0f,AppH/2.0f));
-
-
-        add_sprite(sprite);
-        add_text(text);
-    }
-};
 
 
 class MainGame{
