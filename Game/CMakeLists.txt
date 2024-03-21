@@ -9,7 +9,7 @@ set(${project}_SOURCES
         Game.cpp)
 
 set(${project}_HEADERS
-        Game.h Texture.h Text.h Scene.h)
+        Game.h Texture.h Text.h Scene.h Button.h)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}
@@ -17,5 +17,4 @@ set(${project}_SOURCE_LIST
 
 add_library(${project}
         STATIC
-        ${${project}_SOURCE_LIST}
-        Scene.h)
+        ${${project}_SOURCE_LIST})

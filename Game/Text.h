@@ -14,10 +14,10 @@ private:
     sf::Font font;
 public:
     Text(){}
-    explicit Text(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2i pos, const unsigned int style){
+    explicit Text(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2u pos, const unsigned int style){
         create(words, size, color, pos, style);
     }
-    void create(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2i pos, const unsigned int style){
+    void create(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2u pos, const unsigned int style){
         if (!font.loadFromFile(path_to_game + "\\resources\\wgs.ttf"))
         {
             std::cerr << "Fail to load font" << std::endl;

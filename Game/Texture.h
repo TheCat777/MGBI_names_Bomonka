@@ -11,10 +11,13 @@ private:
     sf::Sprite sprite;
 public:
     Texture(){}
-    explicit Texture(const std::string& path, sf::Vector2i _coords){
+    explicit Texture(const std::string& path, sf::Vector2u _coords){
         create(path, _coords);
     }
-    void create(const std::string& path, sf::Vector2i _coords){
+    sf::Vector2u get_size(){
+        return texture.getSize();
+    }
+    void create(const std::string& path, sf::Vector2u _coords){
         if (!texture.loadFromFile(path_to_game + path)){
             std::cerr << "Failure to load texture from file " << path << std::endl;
         }
