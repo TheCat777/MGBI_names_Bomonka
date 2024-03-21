@@ -88,7 +88,6 @@ public:
         add_text(text1);
 
         Button but1;
-        but1.create(L"1. Жить или не жить", {400, 300});
         add_button(but1);
     }
 };

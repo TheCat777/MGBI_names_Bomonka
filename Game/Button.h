@@ -16,17 +16,16 @@
 
 class Button{
 private:
-    sf::Vector2u coords;
-    sf::Vector2u size;
+    sf::Vector2u coords = {0, 0};
+    sf::Vector2u size = {10000, 10000};
     Texture active;
     Texture disactive;
     Text text;
     bool is_active = false;
-    bool viisble;
+    bool visible = false;
 public:
-    Button(){};
     void create(const std::wstring& _text, sf::Vector2u _coords){
-        viisble = true;
+        visible = true;
         coords = _coords;
         active.create("\\resources\\active.png", coords);
         disactive.create("\\resources\\no_active.png", coords);
@@ -34,8 +33,10 @@ public:
         text.create(_text, 22, sf::Color::Black, {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
     }
     Button(const std::wstring& _text, sf::Vector2u _coords){
+        visible = true;
         create(_text, _coords);
     }
+    Button(){}
     bool is_clicked() const{
         if (is_pointed() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
             return true;
@@ -50,11 +51,13 @@ public:
     }
     void draw(sf::RenderWindow & window){
         is_active = is_pointed();
-        if (is_active)
-            active.draw(window);
-        else
-            disactive.draw(window);
-        text.draw(window);
+        if (visible) {
+            if (is_active)
+                active.draw(window);
+            else
+                disactive.draw(window);
+            text.draw(window);
+        }
     }
 };
 
