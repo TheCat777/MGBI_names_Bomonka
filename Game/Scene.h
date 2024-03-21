@@ -32,6 +32,8 @@ public:
         }
         for (auto& button : Buttons) {
             button.draw(window);
+            if (button.is_clicked())
+                Texts[0].set_text(L"12234");
         }
         window.display();
     }

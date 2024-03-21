@@ -30,6 +30,9 @@ public:
         text.setStyle(style); // выбираем стиль текста
         text.setPosition(sf::Vector2f(pos));
     }
+    void set_text(const std::wstring& words){
+        text.setString(words);
+    }
     void draw(sf::RenderWindow & window){
         text.setFont(font);
         window.draw(text);
