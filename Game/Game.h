@@ -11,8 +11,6 @@
 #include <iostream>
 #include <filesystem>
 
-#include "Texture.h"
-#include "Text.h"
 #include "Scene.h"
 
 #define AppW 1920

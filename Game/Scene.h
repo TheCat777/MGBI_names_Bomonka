@@ -4,25 +4,34 @@
 
 #ifndef MGBI_BOMONKA_SCENE_H
 #define MGBI_BOMONKA_SCENE_H
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <fstream>
 #include <iostream>
 #include <filesystem>
 
+#include "Button.h"
+#include "Text.h"
+#include "Texture.h"
+
 
 class Base_Scene{
 public:
 
-    std::vector<Texture> Textures_;
+    std::vector<Texture> Textures;
     std::vector<Text> Texts;
+    std::vector<Button> Buttons;
 
     void draw_all(sf::RenderWindow & window){
         window.clear();
-        for (auto& texture : Textures_)
+        for (auto& texture : Textures)
             texture.draw(window);
         for (auto& text : Texts) {
             text.draw(window);
+        }
+        for (auto& button : Buttons) {
+            button.draw(window);
         }
         window.display();
     }
@@ -47,7 +56,10 @@ protected:
         Texts.push_back(new_text);
     }
     void add_texture(const Texture& texture){
-        Textures_.push_back(texture);
+        Textures.push_back(texture);
+    }
+    void add_button(const Button& but){
+        Buttons.push_back(but);
     }
 public:
     void load(){};
@@ -67,11 +79,15 @@ private:
     std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
 public:
     void load(){
-        Texture t(path_to_game + "\\resources\\logo.png");
+        Texture t("\\resources\\logo.png", {0, 0});
         add_texture(t);
 
-        Text text1("Hello", 42, sf::Color::Black, {200, 130}, sf::Text::Bold);
+        Text text1(L"Аладин", 42, sf::Color::Black, {200, 130}, sf::Text::Bold);
         add_text(text1);
+
+        Button but1;
+        but1.create(L"1. Жить или не жить", {400, 300});
+        add_button(but1);
     }
 };
 
