@@ -17,7 +17,7 @@ class MiniGame : public Base_Scene{
 private:
     double SPEED = 1;
 public:
-    MiniGame(sf::RenderWindow & window) {
+    explicit MiniGame(sf::RenderWindow & window) {
         Load();
         while (window.isOpen()) {
             EventsMiniGame(window);
@@ -57,7 +57,7 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {Textures[0].move(SPEED, 0); }
 
         if (Textures[0].GetSprite().getGlobalBounds().intersects(Textures[1].GetSprite().getGlobalBounds())) {
-
+            std::cout << 1;
         }
 
     }

@@ -13,7 +13,7 @@ private:
     sf::Text text;
     sf::Font font;
 public:
-    Text(){}
+    Text()= default;
     explicit Text(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2u pos, const unsigned int style){
         create(words, size, color, pos, style);
     }

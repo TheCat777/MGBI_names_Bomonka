@@ -36,7 +36,7 @@ public:
         visible = true;
         create(_text, _coords);
     }
-    Button(){}
+    Button()= default;
     bool is_clicked() const{
         if (is_pointed() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
             return true;
