@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 3.21)
 set(project_name "MGBI_Bomonka")
 
 project(${project_name} LANGUAGES CXX)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/sfml-src/include)
-link_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/sfml-build/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
@@ -13,6 +11,9 @@ FetchContent_Declare(SFML
         GIT_REPOSITORY https://github.com/SFML/SFML.git
         GIT_TAG 2.6.x)
 FetchContent_MakeAvailable(SFML)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/sfml-src/include)
+link_directories(${CMAKE_CURRENT_BINARY_DIR}/_deps/sfml-build/lib)
 
 
 add_executable(${project_name} main.cpp)
