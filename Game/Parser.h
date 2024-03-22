@@ -9,12 +9,15 @@
 #include <string>
 #include <vector>
 
+#include "Text.h"
+#include "Texture.h"
+
 struct loader
 {
     int id;
-    std::string text;
-    std::string prepod;
-    std::string fon;
+    Text text;
+    Texture prepod;
+    Texture fon;
     std::string music;
     int button_count;
     std::vector <std::pair<std::string, int>> buttons;
