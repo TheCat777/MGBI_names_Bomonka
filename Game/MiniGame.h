@@ -34,8 +34,8 @@ public:
     void Load() {
         Texture student;
         Texture wall;
-        student.create("\\resources\\student.jpg", {100, 500});
-        wall.create("\\resources\\wall.png", {0, 0});
+        student.create("\\resources\\student.jpg", {150, 500});
+        wall.create("\\resources\\wall.png", {100, 100});
 
         Textures.push_back(student);
         Textures.push_back(wall);
@@ -56,9 +56,6 @@ public:
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {Textures[0].move(0, SPEED); }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {Textures[0].move(SPEED, 0); }
 
-        if (Textures[0].GetSprite().getGlobalBounds().intersects(Textures[1].GetSprite().getGlobalBounds())) {
-            std::cout << 1;
-        }
 
     }
 };

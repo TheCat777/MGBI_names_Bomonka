@@ -39,23 +39,6 @@ public:
         auto second_colider = another.GetSprite().getGlobalBounds();
         return first_colider.intersects(second_colider);
     }
-    char where_colided(const Texture & another) {
-        auto first_colider = sprite.getGlobalBounds();
-        auto second_colider = another.GetSprite().getGlobalBounds();
-        if (is_colided(another)) {
-            if (first_colider.top - first_colider.height < second_colider.top && second_colider.top < first_colider.top &&
-                first_colider.left < second_colider.top < second_colider.left + second_colider.width)
-                return 't';
-            if (first_colider.top - first_colider.height < second_colider.top - second_colider.height && second_colider.top - second_colider.height < first_colider.top &&
-                first_colider.left < second_colider.top < second_colider.left + second_colider.width)
-                return 'b';
-            if (first_colider.top - first_colider.height < second_colider.top && second_colider.top < first_colider.top &&)
-                return 'l';
-            if ()
-                return 'r';
-        }
-        return '-';
-    }
 };
 
 
