@@ -28,6 +28,13 @@ public:
         sprite.setTexture(texture);
         window.draw(sprite);
     }
+    void move(double x, double y) {
+        sprite.move(x, y);
+    }
+    sf::Sprite GetSprite() {
+        return sprite;
+    }
+
 };
 
 

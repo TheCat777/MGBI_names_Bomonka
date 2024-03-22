@@ -12,6 +12,7 @@
 #include <filesystem>
 
 #include "Scene.h"
+#include "MiniGame.h"
 
 #define AppW 1920
 #define AppH 1080
@@ -120,9 +121,14 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        Loading_Scene loadingScene;
-        loadingScene.load();
-        loadingScene.start(window);
+        if (false) {
+            Loading_Scene loadingScene;
+            loadingScene.load();
+            loadingScene.start(window);
+        }
+        else {
+            MiniGame g(window);
+        }
     }
 };
 
