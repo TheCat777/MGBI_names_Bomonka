@@ -12,29 +12,24 @@
 #include <filesystem>
 #include <cmath>
 
+#include "Constants.h"
+#include "Sound.h"
+
 
 class MiniGame : public Base_Scene{
 private:
-    std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
-    sf::Sound sound;
-    sf::SoundBuffer buffer;
-    double SPEED_W, SPEED_A, SPEED_S, SPEED_D;
+    float SPEED_W, SPEED_A, SPEED_S, SPEED_D;
     int dw, da, ds, dd;
+    Sound music;
 public:
     MiniGame(sf::RenderWindow & window) {
         Load();
-        LoadMusic();
+        music.create("\\resources\\fonk.mp3", 10.0f, true);
+        music.play();
         while (window.isOpen()) {
             EventsMiniGame(window);
             DrawMiniGame(window);
         }
-    }
-    void LoadMusic() {
-        if (!buffer.loadFromFile(path_to_game + "\\resources\\fonk.mp3")) {std::cout << "ERROR MUSIC"; }
-        sound.setBuffer(buffer);
-        sound.setVolume(10.f);
-        sound.setLoop(true);
-        sound.play();
     }
     void DrawMiniGame(sf::RenderWindow & window){
         window.clear();
@@ -42,7 +37,7 @@ public:
             texture.draw(window);
         window.display();
     }
-    void Collision(Texture txr) {
+    void Collision(const Texture& txr) {
         if (Textures[0].GetSprite().getGlobalBounds().intersects(txr.GetSprite().getGlobalBounds())) {
             if (dw) {Textures[0].move(0, SPEED_S); SPEED_W = 0;}
             if (da) {Textures[0].move(SPEED_D, 0); SPEED_A = 0;}
@@ -59,9 +54,9 @@ public:
         wall.create("\\resources\\wall.png", {100, 100});
         wall2.create("\\resources\\wall.png", {400, 800});
 
-        Textures.push_back(student);
-        Textures.push_back(wall);
-        Textures.push_back(wall2);
+        add_texture(student);
+        add_texture(wall);
+        add_texture(wall2);
     }
     void EventsMiniGame(sf::RenderWindow & window){
         for (auto event = sf::Event{}; window.pollEvent(event);) {

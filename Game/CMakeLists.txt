@@ -9,7 +9,7 @@ set(${project}_SOURCES
         Game.cpp)
 
 set(${project}_HEADERS
-        Game.h Texture.h Text.h Scene.h Button.h MiniGame.h)
+        Game.h Texture.h Text.h Scene.h Button.h MiniGame.h Sound.h Constants.h Dialog.h Parser.h)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}

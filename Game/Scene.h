@@ -78,8 +78,6 @@ public:
 
 
 class Loading_Scene : public Base_Scene{
-private:
-    std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
 public:
     void load(){
         Texture t("\\resources\\logo.png", {0, 0});

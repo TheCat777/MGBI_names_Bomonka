@@ -6,10 +6,10 @@
 #define MGBI_BOMONKA_TEXT_H
 
 #include <SFML/Graphics.hpp>
+#include "Constants.h"
 
 class Text{
 private:
-    std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
     sf::Text text;
     sf::Font font;
 public:

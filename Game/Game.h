@@ -13,10 +13,10 @@
 
 #include "Scene.h"
 #include "MiniGame.h"
+#include "Constants.h"
 
 #define AppW 1920
 #define AppH 1080
-std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
 
 
 class MainGame{

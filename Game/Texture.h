@@ -3,10 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Constants.h"
 
 class Texture{
 private:
-    std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
     sf::Texture texture;
     sf::Sprite sprite;
 public:

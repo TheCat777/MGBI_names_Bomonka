@@ -11,7 +11,10 @@
 #include <iostream>
 #include <filesystem>
 #include <cmath>
+
 #include "Parser.h"
+#include "Scene.h"
+#include "Constants.h"
 
 
 class Dialog : public Base_Scene{
@@ -42,8 +45,7 @@ class Dialog : public Base_Scene{
             Textures.push_back(fon);
             Textures.push_back(prepod);
 
-            
-            std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
+
             if (!buffer.loadFromFile(path_to_game + "\\resources\\gimn.mp3")){
                 //Error audio
             }
