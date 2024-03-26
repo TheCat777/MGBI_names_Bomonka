@@ -17,4 +17,5 @@ set(${project}_SOURCE_LIST
 
 add_library(${project}
         STATIC
-        ${${project}_SOURCE_LIST})
+        ${${project}_SOURCE_LIST}
+        "Black hole.h")

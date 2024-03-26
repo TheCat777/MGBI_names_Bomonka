@@ -13,7 +13,7 @@
 
 #include "Scene.h"
 #include "MiniGame.h"
-#include "Constants.h"
+#include "Black hole.h"
 
 #define AppW 1920
 #define AppH 1080
@@ -127,7 +127,8 @@ public:
             loadingScene.start(window);
         }
         else {
-            MiniGame g(window);
+            Black_hole blackHole;
+            blackHole.start(window);
         }
     }
 };
