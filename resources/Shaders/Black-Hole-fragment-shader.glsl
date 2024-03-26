@@ -1,7 +1,6 @@
 #version 420
 uniform vec2 resolution;
 uniform vec3 rayOrigin;
-uniform float time;
 uniform vec2 cameraDirection;
 uniform float zoom;
 uniform mat3 transform;

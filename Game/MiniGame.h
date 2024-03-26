@@ -82,4 +82,5 @@ public:
     }
 };
 
+
 #endif //MGBI_BOMONKA_MINIGAME_H

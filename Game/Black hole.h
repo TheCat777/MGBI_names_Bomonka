@@ -123,7 +123,6 @@ public:
             fragShader.setUniform("resolution", sf::Vector2f(screenSize.x, screenSize.y));
             fragShader.setUniform("rayOrigin", cameraPosition);
             fragShader.setUniform("cameraDirection", cameraDirection);
-            fragShader.setUniform("time", clock() / (float) CLOCKS_PER_SEC);
             fragShader.setUniform("transform", (sf::Glsl::Mat3) transform);
             fragShader.setUniform("zoom", 1.0f);
 
