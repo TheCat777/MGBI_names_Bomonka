@@ -9,7 +9,7 @@ set(${project}_SOURCES
         Game.cpp)
 
 set(${project}_HEADERS
-        Game.h Texture.h Text.h Scene.h Button.h MiniGame.h Sound.h Constants.h Dialog.h Parser.h)
+        "Black hole.h" Button.h Constants.h Dialog.h Game.h MiniGame.h Parser.h Scene.h Sound.h Text.h Texture.h)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}
@@ -17,5 +17,4 @@ set(${project}_SOURCE_LIST
 
 add_library(${project}
         STATIC
-        ${${project}_SOURCE_LIST}
-        "Black hole.h")
+        ${${project}_SOURCE_LIST})
