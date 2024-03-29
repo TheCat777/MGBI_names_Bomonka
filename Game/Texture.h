@@ -34,6 +34,9 @@ public:
     sf::Sprite GetSprite() const {
         return sprite;
     }
+    void SetPosition(sf::Vector2i _coords) {
+        sprite.setPosition({(float)_coords.x,(float)_coords.y});
+    }
     bool is_colided(const Texture & another){
         auto first_colider = sprite.getGlobalBounds();
         auto second_colider = another.GetSprite().getGlobalBounds();

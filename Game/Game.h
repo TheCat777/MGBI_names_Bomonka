@@ -121,10 +121,11 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        if (false) {
-            Loading_Scene loadingScene;
-            loadingScene.load();
-            loadingScene.start(window);
+        if (true) {
+//            Loading_Scene loadingScene;
+//            loadingScene.load();
+//            loadingScene.start(window);
+            MiniGame g(window);
         }
         else {
             Black_hole blackHole;
