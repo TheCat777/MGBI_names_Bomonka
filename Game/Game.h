@@ -50,72 +50,6 @@ private:
         window.create({ WIDTH, HEIGHT }, "MGBI by N.E. Bomonki", FULLSCREEN ? sf::Style::Fullscreen : sf::Style::Default);
         window.setFramerateLimit(MAX_FRAME_LIMIT);
     }
-    static void test(){
-        std::filesystem::path Path = std::filesystem::current_path().parent_path().parent_path();
-        auto window = sf::RenderWindow{ { AppW, AppH }, "MGBI by N.E. Bomonki", sf::Style::Fullscreen};
-        window.setFramerateLimit(144);
-//_________________СОЗДАЮ КАРТИНКУ_____________
-        sf::Texture texture;
-        texture.loadFromFile(Path.string() + "\\resources\\logo.png");
-        sf::Sprite sprite(texture);
-
-
-        //_________________ОБЪЯВЛЯЮ ШРИФТ_____________
-        sf::Font font;
-        if (!font.loadFromFile(Path.string() + "\\resources\\wgs.ttf"))
-        {
-            // ошибка...
-        }
-        //_________________СОЗДАЮ ТЕКСТ_____________
-        sf::Text text;
-        text.setFont(font); // выбираем шрифт // font это sf::Font
-        text.setString(L"Привет"); // выбираем отображаемую строку
-        text.setCharacterSize(42); // в пикселях, а не точках! // выбираем размер символов
-        text.setColor(sf::Color::Black); // выбираем цвет
-        text.setStyle(sf::Text::Bold | sf::Text::Underlined); // выбираем стиль текста
-
-        //_________________ВЫРАВНИВАЕМ ПО ЦЕНТРУ ТЕКСТ_____________
-        sf::FloatRect textRect = text.getLocalBounds();
-        text.setOrigin(textRect.left + textRect.width/2.0f,
-                       textRect.top  + textRect.height/2.0f);
-        text.setPosition(sf::Vector2f(AppW/2.0f,AppH/2.0f));
-
-
-        //_________________МУЗЫКА_____________
-        sf::SoundBuffer buffer;
-        if (!buffer.loadFromFile(Path.string() + "\\resources\\1.mp3")){
-            //Error audio
-        }
-        sf::Sound sound;
-        sound.setBuffer(buffer);
-        sound.setVolume(10.f);
-        sound.setLoop(true);
-        sound.play();
-
-
-        while (window.isOpen())
-        {
-            for (auto event = sf::Event{}; window.pollEvent(event);)
-            {
-                if (event.type == sf::Event::KeyPressed)
-                {
-                    if (event.key.code == sf::Keyboard::Escape)
-                    {
-                        window.close();
-                    }
-                }
-                if (event.type == sf::Event::Closed)
-                {
-                    window.close();
-                }
-            }
-
-            window.clear();
-            window.draw(sprite);
-            window.draw(text);
-            window.display();
-        }
-    }
 public:
     MainGame(){
         if (!load_settings()) return;
@@ -139,7 +73,7 @@ public:
             Black_hole blackHole;
             Bad_end_scene scene;
             scene.load();
-            Sound sound("\\resources\\music\\Bad ending2.mp3", 15.f, true);
+            Sound sound("\\resources\\Music\\Bad ending2.mp3", 15.f, true);
             sound.play();
             blackHole.start(window);
             std::thread t(show_scene, std::ref(scene));

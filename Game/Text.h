@@ -18,7 +18,7 @@ public:
         create(words, size, color, pos, style);
     }
     void create(const std::wstring& words, const unsigned int size, const sf::Color color, sf::Vector2u pos, const unsigned int style){
-        if (!font.loadFromFile(path_to_game + "\\resources\\wgs.ttf"))
+        if (!font.loadFromFile(path_to_game + "\\resources\\Fonts\\wgs.ttf"))
         {
             std::cerr << "Fail to load font" << std::endl;
         }

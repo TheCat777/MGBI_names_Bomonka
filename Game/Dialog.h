@@ -24,6 +24,8 @@ class Dialog : public Base_Scene{
     private:
         loader line;
         Sound music;
+
+        bool stop = false;
     public:
         Dialog() {}
         void start(sf::RenderWindow & window){
@@ -41,14 +43,16 @@ class Dialog : public Base_Scene{
             while (window.isOpen()) {
                 EventsDialog(window);
                 draw_all(window);
+                if (stop)
+                    return;
             }
         }
 
         void Load() {
             Texture fon;
             Texture prepod;
-            fon.create("\\resources\\fon-1.png", {0, 0});
-            prepod.create("\\resources\\prep-1.png", {0, 0});
+            fon.create("\\resources\\Textures\\fon-1.png", {0, 0});
+            prepod.create("\\resources\\Textures\\prep-1.png", {0, 0});
             add_texture(fon);
             add_texture(prepod);
 
@@ -72,11 +76,13 @@ class Dialog : public Base_Scene{
             for (auto event = sf::Event{}; window.pollEvent(event);) {
                 if (event.type == sf::Event::KeyPressed) {
                     if (event.key.code == sf::Keyboard::Escape) {
-                        window.close();
+                        stop = true;
+                        return;
                     }
                 }
                 if (event.type == sf::Event::Closed) {
-                    window.close();
+                    stop = true;
+                    return;
                 }
             }
             /*

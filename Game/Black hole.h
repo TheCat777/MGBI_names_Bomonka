@@ -15,8 +15,8 @@
 sf::Texture load_buffer_A(const sf::Texture& previous){
     sf::Texture temp1, temp2;
 
-    temp1.loadFromFile((path_to_game + "\\resources\\rgba-noise.jpg"));
-    temp2.loadFromFile((path_to_game + "\\resources\\orinial 1.jpg"));
+    temp1.loadFromFile((path_to_game + "\\resources\\Textures\\rgba-noise.jpg"));
+    temp2.loadFromFile((path_to_game + "\\resources\\Textures\\orinial 1.jpg"));
     sf::Shader shader;
     shader.loadFromFile(path_to_game + R"(\resources\Shaders\buffer_A.glsl)", sf::Shader::Fragment);
     shader.setUniform("iResolution", sf::Vector2f(1920, 1080));
