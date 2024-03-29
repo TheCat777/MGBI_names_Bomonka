@@ -22,7 +22,16 @@ public:
             std::cerr << "Failure to load texture from file " << path << std::endl;
         }
         sprite.setTexture(texture);
+        sprite.setColor(sf::Color(255, 255, 255, 0));
         sprite.setPosition({(float)_coords.x, (float)_coords.y});
+    }
+    void setColor(const sf::Color & color){
+        sprite.setColor(color);
+    }
+    void setVisibility(unsigned int visibility){
+        auto temp = sprite.getColor();
+        temp.a = visibility;
+        sprite.setColor(temp);
     }
     void draw(sf::RenderWindow & window){
         sprite.setTexture(texture);

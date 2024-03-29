@@ -25,7 +25,8 @@ class Dialog : public Base_Scene{
         loader line;
         Sound music;
     public:
-        explicit Dialog(sf::RenderWindow & window) {
+        Dialog() {}
+        void start(sf::RenderWindow & window){
             line.id = 0;
             line.text = L"Так! Уважаемые студенты!";
             line.prepod = "Корзинов";

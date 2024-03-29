@@ -83,10 +83,6 @@ sf::String Map[HEIGHT_MAP] = {
 
 class MiniGame : public Base_Scene{
 private:
-    std::string path_to_game = std::filesystem::current_path().parent_path().parent_path().string();
-    sf::Sound sound;
-    sf::SoundBuffer buffer;
-    Texture student;
     sf::View camera;
     sf::Clock clock;
     float time;
@@ -102,12 +98,14 @@ public:
         camera.setCenter(tempX, tempY);
         return camera;
     }
-    MiniGame(sf::RenderWindow & window) {
+    MiniGame() {}
+    void start(sf::RenderWindow & window){
         Load(window);
-        //LoadMusic();
+        Sound music("\\resources\\fonk.mp3", 10.f, true);
+        music.play();
         while (window.isOpen()) {
             TimeCounter();
-            std::cout << Textures[0].GetSprite().getPosition().x << " " << Textures[0].GetSprite().getPosition().y << std::endl;
+            //std::cout << Textures[0].GetSprite().getPosition().x << " " << Textures[0].GetSprite().getPosition().y << std::endl;
             EventsMiniGame(window);
             WASD(window);
             DrawMiniGame(window);
@@ -116,7 +114,7 @@ public:
     void Load(sf::RenderWindow & window) {
         Texture block;
         Texture floor;
-
+        Texture student;
         student.create("\\resources\\student.jpg", {100, 100});
         block.create("\\resources\\block.jpg", {0, 0});
         floor.create("\\resources\\floor2.png", {0, 0});
@@ -127,13 +125,6 @@ public:
         camera.setSize(960, 540);
         camera.setCenter(student.GetSprite().getPosition());
 
-    }
-    void LoadMusic() {
-        if (!buffer.loadFromFile(path_to_game + "\\resources\\fonk.mp3")) {std::cout << "ERROR MUSIC"; }
-        sound.setBuffer(buffer);
-        sound.setVolume(10.f);
-        sound.setLoop(true);
-        sound.play();
     }
     void TimeCounter() {
         time = clock.getElapsedTime().asMicroseconds();

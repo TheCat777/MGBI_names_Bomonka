@@ -120,15 +120,31 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        if (false) {
-            Loading_Scene loadingScene;
-            loadingScene.load();
-            loadingScene.start(window);
+        if (!true) {
+//            Loading_Scene loadingScene;
+//            loadingScene.load();
+//            loadingScene.start(window);
+            MiniGame g;
+            std::thread t(show_scene, std::ref(g));
+            t.detach();
+            g.start(window);
+        }
+        else if(true){
+            Dialog g;
+            std::thread t(show_scene, std::ref(g));
+            t.detach();
+            g.start(window);
         }
         else {
-            /*Black_hole blackHole;
-            blackHole.start(window);*/
-            Dialog g(window);
+            Black_hole blackHole;
+            Bad_end_scene scene;
+            scene.load();
+            Sound sound("\\resources\\music\\Bad ending2.mp3", 15.f, true);
+            sound.play();
+            blackHole.start(window);
+            std::thread t(show_scene, std::ref(scene));
+            t.detach();
+            scene.start(window);
         }
     }
 };

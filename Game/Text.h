@@ -26,12 +26,17 @@ public:
         text.setFont(font); // выбираем шрифт // font это sf::Font
         text.setString(words); // выбираем отображаемую строку
         text.setCharacterSize(size); // в пикселях, а не точках! // выбираем размер символов
-        text.setColor(color); // выбираем цвет
+        text.setFillColor(color); // выбираем цвет
         text.setStyle(style); // выбираем стиль текста
         text.setPosition(sf::Vector2f(pos));
     }
     void set_text(const std::wstring& words){
         text.setString(words);
+    }
+    void setVisibility(unsigned int visibility){
+        auto temp = text.getFillColor();
+        temp.a = visibility;
+        text.setFillColor(temp);
     }
     void draw(sf::RenderWindow & window){
         text.setFont(font);

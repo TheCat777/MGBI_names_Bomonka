@@ -1,9 +1,9 @@
 #version 420
 uniform vec2 resolution;
 uniform vec3 rayOrigin;
+uniform float time;
 uniform vec2 cameraDirection;
 uniform float zoom;
-uniform float iTime;
 uniform mat3 transform;
 
 const int MAX_STEPS = 400;
@@ -22,9 +22,9 @@ float hash(vec3 p) {
 }
 
 float noise(vec3 x) {
-    x += iTime;
     vec3 i = floor(x);
     vec3 f = fract(x);
+    f = f * f * (3.0 - 2.0 * f);
     return mix(mix(mix(hash(i + vec3(0, 0, 0)),
                        hash(i + vec3(1, 0, 0)), f.x),
                    mix(hash(i + vec3(0, 1, 0)),
@@ -51,7 +51,7 @@ float getDist(vec3 p) {
     diskDist = max(diskDist, -sphere(vec4(-p, 1.5) * 10.0));
     if(diskDist < 2.0)
     {
-        vec3 c = vec3(length(diskPos), diskPos.y, atan(diskPos.z + 0.0, diskPos.x + 0.0) * 0.5);
+        vec3 c = vec3(length(diskPos), diskPos.y, atan(diskPos.z + 1.0, diskPos.x + 1.0) * 0.5);
         c *= 10.0;
         diskDist += noise(c) * 0.4;
         diskDist += noise(c * 2.5) * 0.2;
@@ -94,6 +94,7 @@ mat2 rotate(float a) {
 
 void main() {
     vec2 uv = (gl_FragCoord.xy - 0.5 * resolution) / resolution.y;
+
     vec3 rayDirection = normalize(vec3(uv.x, uv.y, zoom) * transform);
     rayDirection.yz *= rotate(cameraDirection.y);
     rayDirection.xz *= rotate(cameraDirection.x);

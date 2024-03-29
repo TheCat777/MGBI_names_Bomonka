@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <thread>
+#include <mutex>
 
 #include "Button.h"
 #include "Text.h"
@@ -32,23 +34,19 @@ public:
         }
         for (auto& button : Buttons) {
             button.draw(window);
-            if (button.is_clicked())
+            if (button.is_clicked(window))
                 Texts[0].set_text(L"12234");
         }
         window.display();
     }
-    void events(sf::RenderWindow & window){
-        for (auto event = sf::Event{}; window.pollEvent(event);)
-        {
-            if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Escape)
-                {
+    static void events(sf::RenderWindow & window){
+        for (auto event = sf::Event{}; window.pollEvent(event);){
+            if (event.type == sf::Event::KeyPressed){
+                if (event.key.code == sf::Keyboard::Escape){
                     window.close();
                 }
             }
-            if (event.type == sf::Event::Closed)
-            {
+            if (event.type == sf::Event::Closed){
                 window.close();
             }
         }
@@ -64,14 +62,23 @@ protected:
         Buttons.push_back(but);
     }
 public:
-    void load(){};
-    Base_Scene(){
-        load();
-    }
+    virtual void load(){};
+    Base_Scene()= default;
     void start(sf::RenderWindow & window){
         while (window.isOpen()){
             events(window);
             draw_all(window);
+        }
+    }
+    void setVisibility(unsigned int visibility){
+        for (auto & i : Texts){
+            i.setVisibility(visibility);
+        }
+        for (auto & i : Textures){
+            i.setVisibility(visibility);
+        }
+        for (auto & i : Buttons){
+            i.setVisibility(visibility);
         }
     }
 };
@@ -79,11 +86,11 @@ public:
 
 class Loading_Scene : public Base_Scene{
 public:
-    void load(){
+    void load() override{
         Texture t("\\resources\\logo.png", {0, 0});
         add_texture(t);
 
-        Text text1(L"Аладин", 42, sf::Color::Black, {200, 130}, sf::Text::Bold);
+        Text text1(L"Аладин", 42, sf::Color(0, 0, 0, 0), {200, 130}, sf::Text::Bold);
         add_text(text1);
 
         Button but1;
@@ -91,5 +98,29 @@ public:
         add_button(but1);
     }
 };
+
+class Bad_end_scene : public Base_Scene{
+public:
+    void load() override{
+        Texture t("\\resources\\Textures\\bad_ending.jpg", {0, 0});
+        add_texture(t);
+    }
+};
+
+void show_scene(Base_Scene & scene){
+    for (unsigned int visibility = 0; visibility <= 255; ++visibility){
+        scene.setVisibility(visibility);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+
+void hide_scene(Base_Scene & scene){
+    for (unsigned int visibility = 255; visibility > 0; --visibility){
+        scene.setVisibility(visibility);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    scene.setVisibility(0);
+}
+
 
 #endif //MGBI_BOMONKA_SCENE_H

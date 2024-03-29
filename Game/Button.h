@@ -30,27 +30,32 @@ public:
         active.create("\\resources\\active.png", coords);
         disactive.create("\\resources\\no_active.png", coords);
         size = active.get_size();
-        text.create(_text, 22, sf::Color::Black, {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
+        text.create(_text, 22, sf::Color(0, 0, 0, 0), {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
     }
     Button(const std::wstring& _text, sf::Vector2u _coords){
         visible = true;
         create(_text, _coords);
     }
     Button()= default;
-    bool is_clicked() const{
-        if (is_pointed() && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    bool is_clicked(sf::RenderWindow & window) const{
+        if (is_pointed(window) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
             return true;
         return false;
     }
-    bool is_pointed() const{
-        sf::Vector2i position = sf::Mouse::getPosition();
-        if (coords.x + 7 < position.x && position.x < coords.x + 7 + size.x && coords.y + 31 < position.y && position.y < coords.y + 31 + size.y){
+    bool is_pointed(sf::RenderWindow & window) const{
+        sf::Vector2i position = sf::Mouse::getPosition() - window.getPosition();
+        if (coords.x < position.x && position.x < coords.x + size.x && coords.y< position.y && position.y < coords.y + size.y){
             return true;
         }
         return false;
     }
+    void setVisibility(unsigned int visibility){
+        text.setVisibility(visibility);
+        active.setVisibility(visibility);
+        disactive.setVisibility(visibility);
+    }
     void draw(sf::RenderWindow & window){
-        is_active = is_pointed();
+        is_active = is_pointed(window);
         if (visible) {
             if (is_active)
                 active.draw(window);
