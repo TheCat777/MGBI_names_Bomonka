@@ -12,6 +12,9 @@
 #include <filesystem>
 #include <cmath>
 
+#include <string>
+#include <vector>
+
 #include "Parser.h"
 #include "Scene.h"
 #include "Constants.h"
@@ -19,41 +22,50 @@
 
 class Dialog : public Base_Scene{
     private:
-        sf::SoundBuffer buffer;
-        sf::Sound sound;
+        loader line;
+        Sound music;
     public:
         explicit Dialog(sf::RenderWindow & window) {
+            line.id = 0;
+            line.text = L"Так! Уважаемые студенты!";
+            line.prepod = "Корзинов";
+            line.fon = "Ауд224";
+            line.music = "Zagadka.mp3";
+            line.button_count = 2;
+            line.buttons.push_back(std::make_pair(L"Тише себя вести", 1));
+            line.buttons.push_back(std::make_pair(L"Продолжить болтать", 2));
+            //line.sys;
+
             Load();
             while (window.isOpen()) {
                 EventsDialog(window);
-                DrawDialog(window);
+                draw_all(window);
             }
         }
 
-        void DrawDialog(sf::RenderWindow & window){
-            window.clear();
-            for (auto& texture : Textures)
-                texture.draw(window);
-            window.display();
-        }
         void Load() {
             Texture fon;
             Texture prepod;
             fon.create("\\resources\\fon-1.png", {0, 0});
             prepod.create("\\resources\\prep-1.png", {0, 0});
+            add_texture(fon);
+            add_texture(prepod);
 
-            Textures.push_back(fon);
-            Textures.push_back(prepod);
+            music.create("\\resources\\Music\\" + line.music, 50.0f, true);
+            music.play();
 
+            Text beseda(L"wefewf", 36, sf::Color::Black, {0, 0}, 0);
+            add_text(beseda);
 
-            if (!buffer.loadFromFile(path_to_game + "\\resources\\gimn.mp3")){
-                //Error audio
-            }
             
-            sound.setBuffer(buffer);
-            sound.setVolume(5.f);
-            sound.setLoop(true);
-            sound.play();
+            Button var1(line.buttons[0].first, {WIDTH/2-500-20, HEIGHT/1.5f});
+            Button var2(line.buttons[1].first, {WIDTH/2+20, HEIGHT/1.5f});
+            Button var3(L"wewfwf", {WIDTH/2-500-20, HEIGHT/1.2f});
+            Button var4(L"wewfwf", {WIDTH/2+20, HEIGHT/1.2f});
+            add_button(var1);
+            add_button(var2);
+            add_button(var3);
+            add_button(var4);
         }
         void EventsDialog(sf::RenderWindow & window){
             for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -67,9 +79,6 @@ class Dialog : public Base_Scene{
                 }
             }
             /*
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {Textures[0].move(0, -SPEED); }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {Textures[0].move(-SPEED, 0); }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {Textures[0].move(0, SPEED); }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {Textures[0].move(SPEED, 0); }
             */
 

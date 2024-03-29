@@ -12,12 +12,12 @@
 struct loader
 {
     int id;
-    std::string text;
+    std::wstring text;
     std::string prepod;
     std::string fon;
     std::string music;
     int button_count;
-    std::vector <std::pair<std::string, int>> buttons;
+    std::vector <std::pair<std::wstring, int>> buttons;
     std::string sys;
 };
 

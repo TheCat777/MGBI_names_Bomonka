@@ -13,6 +13,7 @@
 
 #include "Scene.h"
 #include "MiniGame.h"
+#include "Dialog.h"
 #include "Black hole.h"
 
 #define AppW 1920
@@ -22,8 +23,6 @@
 class MainGame{
 private:
     sf::RenderWindow window;
-    unsigned int WIDTH, HEIGHT, MAX_FRAME_LIMIT;
-    bool FULLSCREEN;
 
     void execute(const std::string& var, int val){
         if (var == "WIDTH"){ WIDTH = val; return;}
@@ -121,15 +120,15 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        if (true) {
-//            Loading_Scene loadingScene;
-//            loadingScene.load();
-//            loadingScene.start(window);
-            MiniGame g(window);
+        if (false) {
+            Loading_Scene loadingScene;
+            loadingScene.load();
+            loadingScene.start(window);
         }
         else {
-            Black_hole blackHole;
-            blackHole.start(window);
+            /*Black_hole blackHole;
+            blackHole.start(window);*/
+            Dialog g(window);
         }
     }
 };
