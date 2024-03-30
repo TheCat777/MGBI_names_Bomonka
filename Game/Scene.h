@@ -87,7 +87,7 @@ public:
 class Loading_Scene : public Base_Scene{
 public:
     void load() override{
-        Texture t("\\resources\\Textures\\logo.png", {0, 0});
+        Texture t("logo.png", {0, 0});
         add_texture(t);
 
         Text text1(L"Аладин", 42, sf::Color(0, 0, 0, 0), {200, 130}, sf::Text::Bold);
@@ -102,7 +102,7 @@ public:
 class Bad_end_scene : public Base_Scene{
 public:
     void load() override{
-        Texture t("\\resources\\Textures\\bad_ending.jpg", {0, 0});
+        Texture t("bad_ending.jpg", {0, 0});
         add_texture(t);
     }
 };

@@ -18,7 +18,7 @@ public:
         return texture.getSize();
     }
     void create(const std::string& path, sf::Vector2u _coords){
-        if (!texture.loadFromFile(path_to_game + path)){
+        if (!texture.loadFromFile(path_to_game + "\\resources\\Textures\\" + path)){
             std::cerr << "Failure to load texture from file " << path << std::endl;
         }
         sprite.setTexture(texture);

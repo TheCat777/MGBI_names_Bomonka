@@ -51,12 +51,12 @@ class Dialog : public Base_Scene{
         void Load() {
             Texture fon;
             Texture prepod;
-            fon.create("\\resources\\Textures\\fon-1.png", {0, 0});
-            prepod.create("\\resources\\Textures\\prep-1.png", {0, 0});
+            fon.create("fon-1.png", {0, 0});
+            prepod.create("prep-1.png", {0, 0});
             add_texture(fon);
             add_texture(prepod);
 
-            music.create("\\resources\\Music\\" + line.music, 50.0f, true);
+            music.create(line.music, 50.0f, true);
             music.play();
 
             Text beseda(L"wefewf", 36, sf::Color::Black, {0, 0}, 0);
