@@ -63,7 +63,7 @@ public:
             t.detach();
             g.start(window);
         }
-        else if(true){
+        else if(!true){
             Dialog g;
             std::thread t(show_scene, std::ref(g));
             t.detach();
@@ -73,7 +73,7 @@ public:
             Black_hole blackHole;
             Bad_end_scene scene;
             scene.load();
-            Sound sound("\\resources\\Music\\Bad ending2.mp3", 15.f, true);
+            Sound sound("Bad ending2.mp3", 15.f, true);
             sound.play();
             blackHole.start(window);
             std::thread t(show_scene, std::ref(scene));

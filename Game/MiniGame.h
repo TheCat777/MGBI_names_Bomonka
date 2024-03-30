@@ -101,7 +101,7 @@ public:
     MiniGame() {}
     void start(sf::RenderWindow & window){
         Load(window);
-        Sound music("\\resources\\Music\\stress.mp3", 10.f, true);
+        Sound music("stress.mp3", 10.f, true);
         music.play();
         while (window.isOpen()) {
             TimeCounter();
@@ -115,9 +115,9 @@ public:
         Texture block;
         Texture floor;
         Texture student;
-        student.create("\\resources\\Textures\\student.jpg", {100, 100});
-        block.create("\\resources\\Textures\\block.jpg", {0, 0});
-        floor.create("\\resources\\Textures\\floor2.png", {0, 0});
+        student.create("student.jpg", {100, 100});
+        block.create("block.jpg", {0, 0});
+        floor.create("floor2.png", {0, 0});
         add_texture(student);
         add_texture(block);
         add_texture(floor);

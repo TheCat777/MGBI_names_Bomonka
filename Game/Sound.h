@@ -18,7 +18,7 @@ public:
         create(path, volume, loopted);
     }
     void create(const std::string &path, const float & volume, bool loopted){
-        if (!buffer.loadFromFile(path_to_game + path)){
+        if (!buffer.loadFromFile(path_to_game + "\\resources\\Music\\" + path)){
             //Error audio
         }
         sound.setBuffer(buffer);
