@@ -8,7 +8,7 @@ uniform mat3 transform;
 
 const int MAX_STEPS = 400;
 const float MAX_DIST = 20.;
-const float SURFACE_DIST = 0.001;
+const float SURFACE_DIST = 0.01;
 
 
 float sphere(vec4 s) {
@@ -35,6 +35,42 @@ float noise(vec3 x) {
                        hash(i + vec3(1, 1, 1)), f.x), f.y), f.z);
 }
 
+const float pi = 3.14159265;
+
+float atan2(float y, float x)
+{
+    if (x > 0.0)
+    {
+        return atan(y / x);
+    }
+    else if (x == 0.0)
+    {
+        if (y > 0.0)
+        {
+            return pi / 2.0;
+        }
+        else if (y < 0.0)
+        {
+            return -(pi / 2.0);
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    else //(x < 0.0)
+    {
+        if (y >= 0.0)
+        {
+            return atan(y / x) + pi;
+        }
+        else
+        {
+            return atan(y / x) - pi;
+        }
+    }
+}
+
 vec4 getGlow(float minPDist) {
     float mainGlow = minPDist * 1.2;
     mainGlow = pow(mainGlow, 32.0);
@@ -51,7 +87,7 @@ float getDist(vec3 p) {
     diskDist = max(diskDist, -sphere(vec4(-p, 1.5) * 10.0));
     if(diskDist < 2.0)
     {
-        vec3 c = vec3(length(diskPos), diskPos.y, atan(diskPos.z + 0.0, diskPos.x + 0.0) * 0.5);
+        vec3 c = vec3(length(diskPos), diskPos.y, atan2(diskPos.z + 0.0, diskPos.x + 0.0) * 0.5);
         c *= 10.0;
         diskDist += noise(c) * 0.4;
         diskDist += noise(c * 2.5) * 0.2;
