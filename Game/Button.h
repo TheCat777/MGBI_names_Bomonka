@@ -27,10 +27,10 @@ public:
     void create(const std::wstring& _text, sf::Vector2u _coords){
         visible = true;
         coords = _coords;
-        active.create("active.png", coords);
-        disactive.create("no_active.png", coords);
+        active.create("dialog_button_active.png", coords);
+        disactive.create("dialog_button.png", coords);
         size = active.get_size();
-        text.create(_text, 22, sf::Color(0, 0, 0, 0), {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
+        text.create(_text, 25, sf::Color(0, 0, 0, 0), {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
     }
     Button(const std::wstring& _text, sf::Vector2u _coords){
         visible = true;

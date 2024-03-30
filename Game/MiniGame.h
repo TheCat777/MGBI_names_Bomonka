@@ -20,7 +20,7 @@ const int HEIGHT_MAP = 60;
 const int WIDTH_MAP = 65;
 sf::String Map[HEIGHT_MAP] = {
         "0000000000000000000000000000000000000000000000000000000000000000",
-        "0                     0                                        0",
+        "0   2                 0                                        0",
         "0                     0                                        0",
         "0                     0                                        0",
         "0                     0                                        0",
@@ -115,12 +115,23 @@ public:
         Texture block;
         Texture floor;
         Texture student;
+
+        Texture pol1;
+        Texture pol2;
+        Texture pol3;
         student.create("student.jpg", {100, 100});
         block.create("block.jpg", {0, 0});
         floor.create("floor2.png", {0, 0});
         add_texture(student);
         add_texture(block);
         add_texture(floor);
+
+        pol1.create("mg_fiz_pol_1.png", {0, 0});
+        pol2.create("mg_fiz_pol_2.png", {0, 0});
+        pol3.create("mg_fiz_pol_3.png", {0, 0});
+        add_texture(pol1);
+        add_texture(pol2);
+        add_texture(pol3);
 
         camera.setSize(960, 540);
         camera.setCenter(student.GetSprite().getPosition());
@@ -135,14 +146,20 @@ public:
         window.clear();
         for (int i = 0; i < HEIGHT_MAP; i++) {
             for (int j = 0; j < WIDTH_MAP; j++) {
-                if (Map[i][j] == '0' && (camera.getCenter().x-530 < j*50) && (j*50 < camera.getCenter().x+530) && (camera.getCenter().y-330 < i*50) && (i*50 < camera.getCenter().y+330)) {
-                    Textures[1].SetPosition({j * 50, i * 50});
-                    Textures[1].draw(window);
-                    CreateCollision(Textures[1]);
-                }
-                if (Map[i][j] == ' ' && (camera.getCenter().x-530 < j*50) && (j*50 < camera.getCenter().x+530) && (camera.getCenter().y-330 < i*50) && (i*50 < camera.getCenter().y+330)) {
-                    Textures[2].SetPosition({j * 50, i * 50});
-                    Textures[2].draw(window);
+                if((camera.getCenter().x-530 < j*50) && (j*50 < camera.getCenter().x+530) && (camera.getCenter().y-330 < i*50) && (i*50 < camera.getCenter().y+330)) {
+                    if (Map[i][j] == '0') {
+                        Textures[1].SetPosition({j * 50, i * 50});
+                        Textures[1].draw(window);
+                        CreateCollision(Textures[1]);
+                    }
+                    if (Map[i][j] == ' ') {
+                        Textures[2].SetPosition({j * 50, i * 50});
+                        Textures[2].draw(window);
+                    }
+                    if (Map[i][j] == '2' || Map[i][j] == '3' || Map[i][j] == '1'){
+                        Textures[3].SetPosition({j * 50, i * 50});
+                        Textures[3].draw(window);
+                    }
                 }
             }
         }
@@ -181,7 +198,6 @@ public:
                 window.close();
             }
         }
-
     }
 };
 
