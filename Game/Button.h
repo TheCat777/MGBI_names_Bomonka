@@ -23,8 +23,11 @@ private:
     Text text;
     bool is_active = false;
     bool visible = false;
+
+    int id;
 public:
-    void create(const std::wstring& _text, sf::Vector2u _coords){
+    void create(const std::wstring& _text, sf::Vector2u _coords, int _id){
+        id = _id;
         visible = true;
         coords = _coords;
         active.create("dialog_button_active.png", coords);
@@ -32,15 +35,18 @@ public:
         size = active.get_size();
         text.create(_text, 25, sf::Color(0, 0, 0, 0), {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
     }
-    Button(const std::wstring& _text, sf::Vector2u _coords){
+    Button(const std::wstring& _text, sf::Vector2u _coords, int _id){
         visible = true;
-        create(_text, _coords);
+        create(_text, _coords, _id);
     }
     Button()= default;
     bool is_clicked(sf::RenderWindow & window) const{
         if (is_pointed(window) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
             return true;
         return false;
+    }
+    int get_id(){
+        return id;
     }
     bool is_pointed(sf::RenderWindow & window) const{
         sf::Vector2i position = sf::Mouse::getPosition() - window.getPosition();

@@ -25,7 +25,7 @@ public:
     std::vector<Text> Texts;
     std::vector<Button> Buttons;
 
-    void draw_all(sf::RenderWindow & window){
+    int draw_all(sf::RenderWindow & window){
         window.clear();
         for (auto& texture : Textures)
             texture.draw(window);
@@ -35,9 +35,10 @@ public:
         for (auto& button : Buttons) {
             button.draw(window);
             if (button.is_clicked(window))
-                Texts[0].set_text(L"12234");
+                return button.get_id();
         }
         window.display();
+        return INT32_MIN;
     }
     static void events(sf::RenderWindow & window){
         for (auto event = sf::Event{}; window.pollEvent(event);){
@@ -63,11 +64,13 @@ protected:
     }
 public:
     virtual void load(){};
-    Base_Scene()= default;
-    void start(sf::RenderWindow & window){
+    int start(sf::RenderWindow & window){
         while (window.isOpen()){
             events(window);
-            draw_all(window);
+            int temp = draw_all(window);
+            if (temp != INT32_MIN){
+                return temp;
+            }
         }
     }
     void setVisibility(unsigned int visibility){
@@ -94,7 +97,7 @@ public:
         add_text(text1);
 
         Button but1;
-        but1.create(L"Aboba", {200, 200});
+        but1.create(L"Aboba", {200, 200}, 0);
         add_button(but1);
     }
 };
