@@ -20,7 +20,7 @@
 
 class Base_Scene{
 public:
-
+    bool stop = false;
     std::vector<Texture> Textures;
     std::vector<Text> Texts;
     std::vector<Button> Buttons;
@@ -40,15 +40,11 @@ public:
         window.display();
         return INT32_MIN;
     }
-    static void events(sf::RenderWindow & window){
-        for (auto event = sf::Event{}; window.pollEvent(event);){
-            if (event.type == sf::Event::KeyPressed){
-                if (event.key.code == sf::Keyboard::Escape){
-                    window.close();
-                }
-            }
-            if (event.type == sf::Event::Closed){
-                window.close();
+    void events(sf::RenderWindow & window){
+        for (auto event = sf::Event{}; window.pollEvent(event);) {
+            if (event.type == sf::Event::Closed) {
+                stop = true;
+                return;
             }
         }
     }
@@ -65,7 +61,7 @@ protected:
 public:
     virtual void load(){};
     int start(sf::RenderWindow & window){
-        while (window.isOpen()){
+        while (window.isOpen() && !stop){
             events(window);
             int temp = draw_all(window);
             if (temp != INT32_MIN){
@@ -106,6 +102,8 @@ class Bad_end_scene : public Base_Scene{
 public:
     void load() override{
         Texture t("bad_ending.jpg", {0, 0});
+        Button but;
+        add_button(but);
         add_texture(t);
     }
 };

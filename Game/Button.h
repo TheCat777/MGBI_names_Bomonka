@@ -24,7 +24,7 @@ private:
     bool is_active = false;
     bool visible = false;
 
-    int id;
+    int id = INT32_MIN + 1;
 public:
     void create(const std::wstring& _text, sf::Vector2u _coords, int _id){
         id = _id;
@@ -45,7 +45,7 @@ public:
             return true;
         return false;
     }
-    int get_id(){
+    int get_id() const{
         return id;
     }
     bool is_pointed(sf::RenderWindow & window) const{
