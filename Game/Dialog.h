@@ -32,7 +32,7 @@ class Dialog : public Base_Scene{
         bool stop = false;
     public:
         Dialog() {}
-        int start(sf::RenderWindow & window, int id){
+        int start(sf::RenderWindow & window, int id=0){
             parser.load();
             numScene = id;
             
