@@ -34,7 +34,7 @@ class Dialog : public Base_Scene{
             line.prepod = "Корзинов";
             line.fon = "Ауд224";
             line.music = "Zagadka.mp3";
-            line.button_count = 0;
+            line.button_count = 4;
             line.buttons.push_back(std::make_pair(L"Тише себя вести", 1));
             line.buttons.push_back(std::make_pair(L"Продолжить болтать", 2));
             line.buttons.push_back(std::make_pair(L"Поспать", 3));

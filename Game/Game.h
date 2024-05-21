@@ -55,16 +55,13 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        if (!true) {
-//            Loading_Scene loadingScene;
-//            loadingScene.load();
-//            loadingScene.start(window);
+        if (true) {
             MiniGame g;
             std::thread t(show_scene, std::ref(g));
             t.detach();
             g.start(window);
         }
-        else if(true){
+        else if(!true){
             Dialog g;
             std::thread t(show_scene, std::ref(g));
             t.detach();

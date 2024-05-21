@@ -16,8 +16,13 @@
 #include "Sound.h"
 
 
-const int HEIGHT_MAP = 60;
-const int WIDTH_MAP = 65;
+const int HEIGHT_MAP = 60, WIDTH_MAP = 65;
+const sf::Vector2f CAMERA_SIZE = {960, 540};
+const sf::Vector2f CAMERA_BORDER_TOP = {480, 270};
+const sf::Vector2f CAMERA_BORDER_BOTTOM = {2720, 2730};
+const sf::Vector2u FINISH_COORDS = {2120, 2350};
+const sf::Vector2f DRAWING_BORDER = {530, 330};
+
 sf::String Map[HEIGHT_MAP] = {
         "0000000000000000000000000000000000000000000000000000000000000000",
         "0   2                 0                                        0",
@@ -86,35 +91,43 @@ private:
     sf::View camera;
     sf::Clock clock;
     float time;
-    double SPEED_W, SPEED_A, SPEED_S, SPEED_D;
+    float SPEED_W, SPEED_A, SPEED_S, SPEED_D;
     int dw, da, ds, dd;
+    bool finish = false;
+
+    float elapsedTime = 0.0f;
+    Text timerText;
+    sf::Clock timerClock;
+
 public:
     sf::View getViewCoords(float x, float y) {
         float tempX = x; float tempY = y;
-        if (x <= 480) tempX = 480;
-        if (y <= 270) tempY = 270;
-        if (y >= 2730) tempY = 2730;
-        if (x >= 2730) tempX = 2720;
+        if (x <= CAMERA_BORDER_TOP.x) tempX = CAMERA_BORDER_TOP.x;
+        if (y <= CAMERA_BORDER_TOP.y) tempY = CAMERA_BORDER_TOP.y;
+        if (y >= CAMERA_BORDER_BOTTOM.y) tempY = CAMERA_BORDER_BOTTOM.y;
+        if (x >= CAMERA_BORDER_BOTTOM.x) tempX = CAMERA_BORDER_BOTTOM.x;
         camera.setCenter(tempX, tempY);
         return camera;
     }
     MiniGame() {}
     void start(sf::RenderWindow & window){
-        Load(window);
+        Load();
         Sound music("stress.mp3", 10.f, true);
         music.play();
         while (window.isOpen()) {
             TimeCounter();
-            //std::cout << Textures[0].GetSprite().getPosition().x << " " << Textures[0].GetSprite().getPosition().y << std::endl;
             EventsMiniGame(window);
-            WASD(window);
+            if(!finish) WASD(window);
+            GoodFinish();
+            BadFinish();
             DrawMiniGame(window);
         }
     }
-    void Load(sf::RenderWindow & window) {
+    void Load() {
         Texture block;
         Texture floor;
         Texture student;
+        Texture end;
 
         Texture pol1;
         Texture pol2;
@@ -122,9 +135,14 @@ public:
         student.create("student.jpg", {100, 100});
         block.create("block.jpg", {0, 0});
         floor.create("floor2.png", {0, 0});
+
+        end.create("logo.png", {FINISH_COORDS.x-480, FINISH_COORDS.y-270});
+
         add_texture(student);
         add_texture(block);
         add_texture(floor);
+
+        add_texture(end);
 
         pol1.create("mg_fiz_pol_1.png", {0, 0});
         pol2.create("mg_fiz_pol_2.png", {0, 0});
@@ -133,50 +151,76 @@ public:
         add_texture(pol2);
         add_texture(pol3);
 
-        camera.setSize(960, 540);
-        camera.setCenter(student.GetSprite().getPosition());
+        timerText.create(L"00:00", 20, sf::Color::Black, {0, 0}, 1);
 
+        camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
+        camera.setCenter(student.GetSprite().getPosition());
     }
     void TimeCounter() {
         time = clock.getElapsedTime().asMicroseconds();
         clock.restart();
         time = time/3200;
+
+        elapsedTime = timerClock.getElapsedTime().asSeconds();
+        if (elapsedTime >= 61.0f) { // 2 minutes
+            std::cout << "Game Over! Time's up." << std::endl;
+//            window.close();
+        }
+
+        int minutes = static_cast<int>(elapsedTime) / 60;
+        int seconds = static_cast<int>(elapsedTime) % 60;
+        std::cout << elapsedTime << " " << minutes << " " << seconds << std::endl;
+        timerText.setPosition({camera.getCenter().x - camera.getSize().x / 2 + 10, camera.getCenter().y - camera.getSize().y / 2 + 10});
+        timerText.set_text(L"Через столько тебе конец: " + std::to_wstring(1 - minutes) + L"m " + std::to_wstring(59 - seconds) + L"s");
     }
     void DrawMiniGame(sf::RenderWindow & window){
         window.clear();
-        for (int i = 0; i < HEIGHT_MAP; i++) {
-            for (int j = 0; j < WIDTH_MAP; j++) {
-                if((camera.getCenter().x-530 < j*50) && (j*50 < camera.getCenter().x+530) && (camera.getCenter().y-330 < i*50) && (i*50 < camera.getCenter().y+330)) {
+        int i, j;
+        for (i = 0; i < HEIGHT_MAP; ++i) {
+            for (j = 0; j < WIDTH_MAP; ++j) {
+                if((camera.getCenter().x-DRAWING_BORDER.x < j*50) && (j*50 < camera.getCenter().x+DRAWING_BORDER.x) && (camera.getCenter().y-DRAWING_BORDER.y < i*50) && (i*50 < camera.getCenter().y+DRAWING_BORDER.y)) {
                     if (Map[i][j] == '0') {
                         Textures[1].SetPosition({j * 50, i * 50});
                         Textures[1].draw(window);
                         CreateCollision(Textures[1]);
                     }
-                    if (Map[i][j] == ' ') {
+                    else if (Map[i][j] == ' ') {
                         Textures[2].SetPosition({j * 50, i * 50});
                         Textures[2].draw(window);
                     }
-                    if (Map[i][j] == '2' || Map[i][j] == '3' || Map[i][j] == '1'){
-                        Textures[3].SetPosition({j * 50, i * 50});
-                        Textures[3].draw(window);
-                    }
+//                    else if (Map[i][j] == '2' || Map[i][j] == '3' || Map[i][j] == '1'){
+//                        Textures[3].SetPosition({j * 50, i * 50});
+//                        Textures[3].draw(window);
+//                    }
                 }
             }
         }
+        timerText.draw(window);
         window.setView(camera);
         Textures[0].draw(window);
+        if(finish) Textures[3].draw(window);
         window.display();
     }
+
+    void GoodFinish() {
+        if (fabs(Textures[0].GetSprite().getPosition().x - FINISH_COORDS.x) <= 50 && fabs(Textures[0].GetSprite().getPosition().y - FINISH_COORDS.y) <= 50) {
+            finish = true;
+            camera.setCenter(FINISH_COORDS.x , FINISH_COORDS.y);
+            //std::cout << "FINISH" << std::endl;
+        }
+    }
+    void BadFinish() {
+
+    }
+
     void WASD(sf::RenderWindow & window) {
         SPEED_W = 1, SPEED_A = 1, SPEED_S = 1, SPEED_D = 1;
         dw = 0, da = 0, ds = 0, dd = 0;
-
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {Textures[0].move(0, -SPEED_W*time); dw = 1;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {Textures[0].move(-SPEED_A*time, 0); da = 1;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {Textures[0].move(0, SPEED_S*time); ds = 1;}
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {Textures[0].move(SPEED_D*time, 0); dd = 1;}
         getViewCoords(Textures[0].GetSprite().getPosition().x, Textures[0].GetSprite().getPosition().y);
-
     }
     void CreateCollision(Texture txr) {
         if (Textures[0].GetSprite().getGlobalBounds().intersects(txr.GetSprite().getGlobalBounds())) {

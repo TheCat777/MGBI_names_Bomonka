@@ -42,6 +42,9 @@ public:
         text.setFont(font);
         window.draw(text);
     }
+    void setPosition(const sf::Vector2f coords) {
+        text.setPosition(coords);
+    }
 };
 
 #endif //MGBI_BOMONKA_TEXT_H
