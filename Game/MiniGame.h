@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <cmath>
 
+#include "Button.h"
 #include "Constants.h"
 #include "Sound.h"
 
@@ -114,6 +115,7 @@ public:
         Load();
         Sound music("stress.mp3", 10.f, true);
         music.play();
+        StartWindow(window);
         while (window.isOpen()) {
             TimeCounter();
             EventsMiniGame(window);
@@ -151,7 +153,7 @@ public:
         add_texture(pol2);
         add_texture(pol3);
 
-        timerText.create(L"00:00", 20, sf::Color::Black, {0, 0}, 1);
+        timerText.create(L"00:00", 20, sf::Color::Black, {0, 0}, 0);
 
         camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
         camera.setCenter(student.GetSprite().getPosition());
@@ -162,14 +164,14 @@ public:
         time = time/3200;
 
         elapsedTime = timerClock.getElapsedTime().asSeconds();
-        if (elapsedTime >= 61.0f) { // 2 minutes
+        if (elapsedTime >= 120.0f) { // 2 minutes
             std::cout << "Game Over! Time's up." << std::endl;
 //            window.close();
         }
 
         int minutes = static_cast<int>(elapsedTime) / 60;
         int seconds = static_cast<int>(elapsedTime) % 60;
-        std::cout << elapsedTime << " " << minutes << " " << seconds << std::endl;
+        //std::cout << elapsedTime << " " << minutes << " " << seconds << std::endl;
         timerText.setPosition({camera.getCenter().x - camera.getSize().x / 2 + 10, camera.getCenter().y - camera.getSize().y / 2 + 10});
         timerText.set_text(L"Через столько тебе конец: " + std::to_wstring(1 - minutes) + L"m " + std::to_wstring(59 - seconds) + L"s");
     }
@@ -201,7 +203,28 @@ public:
         if(finish) Textures[3].draw(window);
         window.display();
     }
-
+    void StartWindow(sf::RenderWindow & window) {
+        camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
+        Button buttonStart;
+        Text t;
+        Text info;
+        info.create(L"Вы только покинули аудиторию 501ю, следующей парой была физика... \nВы посмотрели время на телефоне и осознали ужасающую реальность.......\nДо начала лекции осталось лишь 2 минуты...\nВаше горе, отчаяние, боль, разочарование и непреодолимый страх не знали границ...  \nИ да время уже идет!", 20, sf::Color::Red, {(window.getSize().x - 64*10)/2, window.getSize().y/2-300}, 0);
+        t.create(L"Бежать на физику!!!", 40, sf::Color::Red, {(window.getSize().x - 19*20)/2, (window.getSize().y- t.getSize().y)/2}, 0);
+        buttonStart.create(L"AAAAAAAAAAA", {(window.getSize().x - 19*20)/2, window.getSize().y/2}, 0);
+        while(window.isOpen() && !buttonStart.is_clicked(window)) {
+            window.clear();
+            sf::Event event;
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+            }
+            t.draw(window);
+            info.draw(window);
+            buttonStart.draw(window);
+            window.display();
+        }
+    }
     void GoodFinish() {
         if (fabs(Textures[0].GetSprite().getPosition().x - FINISH_COORDS.x) <= 50 && fabs(Textures[0].GetSprite().getPosition().y - FINISH_COORDS.y) <= 50) {
             finish = true;

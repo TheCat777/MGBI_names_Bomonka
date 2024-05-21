@@ -45,6 +45,9 @@ public:
     void setPosition(const sf::Vector2f coords) {
         text.setPosition(coords);
     }
+    sf::Vector2f getSize() {
+        return {text.getGlobalBounds().width, text.getGlobalBounds().height};
+    }
 };
 
 #endif //MGBI_BOMONKA_TEXT_H

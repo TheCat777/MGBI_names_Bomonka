@@ -60,6 +60,7 @@ public:
         active.setVisibility(visibility);
         disactive.setVisibility(visibility);
     }
+
     void draw(sf::RenderWindow & window){
         is_active = is_pointed(window);
         if (visible) {
