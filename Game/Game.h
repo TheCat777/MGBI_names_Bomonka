@@ -17,9 +17,6 @@
 #include "Dialog.h"
 #include "Black hole.h"
 
-#define AppW 1920
-#define AppH 1080
-
 
 class MainGame{
 private:
@@ -78,6 +75,7 @@ public:
             t.detach();
             scene.start(window);
         }
+        window.close();
     }
 };
 

@@ -28,7 +28,7 @@ class Dialog : public Base_Scene{
         bool stop = false;
     public:
         Dialog() {}
-        void start(sf::RenderWindow & window){
+        int start(sf::RenderWindow & window){
             line.id = 0;
             line.text = L"Так! Уважаемые студенты!";
             line.prepod = "Корзинов";
@@ -44,9 +44,11 @@ class Dialog : public Base_Scene{
             Load();
             while (window.isOpen()) {
                 EventsDialog(window);
-                draw_all(window);
+                auto t = draw_all(window);
+                if (t != INT32_MIN)
+                    return t;
                 if (stop)
-                    return;
+                    return INT32_MIN;
             }
         }
 
@@ -68,7 +70,7 @@ class Dialog : public Base_Scene{
             add_text(beseda);
 
             for(int i = 0; i < line.button_count; i++){
-                Button var(line.buttons[i].first, {WIDTH/2-250, HEIGHT/1.8f+i*80});
+                Button var(line.buttons[i].first, {WIDTH/2-250, HEIGHT/1.8+i*80}, 0);
                 add_button(var);
             }
             /*Button var1(line.buttons[0].first, {WIDTH/2-500-20, HEIGHT/1.5f});
