@@ -53,6 +53,9 @@ public:
         if (!load_settings()) return;
         init_window();
         if (true) {
+//            Loading_Scene loadingScene;
+//            loadingScene.load();
+//            loadingScene.start(window);
             MiniGame g;
             std::thread t(show_scene, std::ref(g));
             t.detach();
@@ -64,13 +67,24 @@ public:
             t.detach();
             g.start(window);
         }
-        else {
+        else if(!true){
             Black_hole blackHole;
             Bad_end_scene scene;
             scene.load();
             Sound sound("Bad ending2.mp3", 15.f, true);
             sound.play();
             blackHole.start(window);
+            std::thread t(show_scene, std::ref(scene));
+            t.detach();
+            scene.start(window);
+        }
+        else{
+            Good_end_scene scene;
+            scene.load();
+            Kaleidoscope good_scene;
+            Sound sound("Skaneika.mp3", 20.f, true);
+            sound.play();
+            good_scene.start(window);
             std::thread t(show_scene, std::ref(scene));
             t.detach();
             scene.start(window);

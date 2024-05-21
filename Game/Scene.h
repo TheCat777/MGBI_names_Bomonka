@@ -108,6 +108,16 @@ public:
     }
 };
 
+class Good_end_scene : public Base_Scene{
+public:
+    void load() override{
+        Texture t("good_ending.png", {0, 0});
+        Button but;
+        add_button(but);
+        add_texture(t);
+    }
+};
+
 void show_scene(Base_Scene & scene){
     for (unsigned int visibility = 0; visibility <= 255; ++visibility){
         scene.setVisibility(visibility);

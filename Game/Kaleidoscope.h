@@ -1,0 +1,11 @@
+//
+// Created by SvCat on 11.05.2024.
+//
+
+#ifndef MGBI_BOMONKA_KALEIDOSCOPE_H
+#define MGBI_BOMONKA_KALEIDOSCOPE_H
+
+
+
+
+#endif //MGBI_BOMONKA_KALEIDOSCOPE_H
