@@ -22,13 +22,20 @@
 
 class Dialog : public Base_Scene{
     private:
-        loader line;
+        parser parser;
+        nowScene line;
+        int numScene;
+
+        bool lock_next = true;
         Sound music;
 
         bool stop = false;
     public:
         Dialog() {}
-        int start(sf::RenderWindow & window){
+        int start(sf::RenderWindow & window, int id){
+            parser.load();
+            numScene = id;
+            
             line.id = 0;
             line.text = L"Так! Уважаемые студенты!";
             line.prepod = "Корзинов";
@@ -41,6 +48,9 @@ class Dialog : public Base_Scene{
             line.buttons.push_back(std::make_pair(L"Открыть тетрадь", 4));
             //line.sys;
 
+            music.create(line.music, 50.0f, true);
+            music.play();
+
             Load();
             while (window.isOpen()) {
                 EventsDialog(window);
@@ -52,7 +62,11 @@ class Dialog : public Base_Scene{
             }
         }
 
-        void Load() {
+        void Load(int id = 0) {
+            id = numScene;
+            nowScene newline = parser.get(id);
+            line = newline;
+
             Texture fon;
             Texture prepod;
             Texture panel;
@@ -63,14 +77,15 @@ class Dialog : public Base_Scene{
             add_texture(prepod);
             add_texture(panel);
 
-            music.create(line.music, 50.0f, true);
-            music.play();
+            
+            if(line.music != ""){music.create(line.music, 50.0f, true);music.play();}
+            //music.play();
 
             Text beseda(line.text, 36, sf::Color::Black, {WIDTH/2-480+40, HEIGHT/1.5f+30}, 0);
             add_text(beseda);
 
             for(int i = 0; i < line.button_count; i++){
-                Button var(line.buttons[i].first, {WIDTH/2-250, HEIGHT/1.8+i*80}, 0);
+                Button var(line.buttons[i].first, {WIDTH/2-250, HEIGHT/1.8+i*80}, line.buttons[i].second);
                 add_button(var);
             }
             /*Button var1(line.buttons[0].first, {WIDTH/2-500-20, HEIGHT/1.5f});
@@ -95,9 +110,21 @@ class Dialog : public Base_Scene{
                     return;
                 }
             }
-            /*
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {Textures[0].move(SPEED, 0); }
-            */
+            
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                if(!lock_next){
+                    Textures.clear();
+                    Texts.clear();
+                    Buttons.clear();
+                    numScene++;
+                    lock_next = true;
+                    Load();
+                }
+            }
+            else{
+                lock_next = false;
+            }
+            
 
         }
 };
