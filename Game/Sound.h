@@ -34,6 +34,12 @@ public:
     void set_volume(const float & volume){
         sound.setVolume(volume);
     }
+    void set_path(const std::string &path) {
+        if (!buffer.loadFromFile(path_to_game + "\\resources\\Music\\" + path)){
+            //Error audio
+        }
+        sound.setBuffer(buffer);
+    }
 };
 
 

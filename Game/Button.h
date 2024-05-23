@@ -35,6 +35,9 @@ public:
         size = active.get_size();
         text.create(_text, 25, sf::Color(0, 0, 0, 0), {coords.x + 30, coords.y + 20}, sf::Text::Style::Bold);
     }
+    void create(int _id) {
+        id = _id;
+    }
     Button(const std::wstring& _text, sf::Vector2u _coords, int _id){
         visible = true;
         create(_text, _coords, _id);

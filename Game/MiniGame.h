@@ -95,7 +95,6 @@ private:
     float SPEED_W, SPEED_A, SPEED_S, SPEED_D;
     int dw, da, ds, dd;
     bool finish = false;
-    bool win = true;
     float elapsedTime = 0.0f;
     Text timerText;
     sf::Clock timerClock;
@@ -111,7 +110,7 @@ public:
         return camera;
     }
     MiniGame() {}
-    void start(sf::RenderWindow & window){
+    void start(sf::RenderWindow & window) {
         Sound music("stress.mp3", 10.f, true);
         music.play();
         StartWindow(window);
@@ -127,6 +126,8 @@ public:
             GoodFinish(window);
         }
         else {
+            music.set_path("Igromaniya.mp3");
+            music.play();
             BadFinish(window);
         }
 
@@ -165,15 +166,14 @@ public:
         time = time/3200;
 
         elapsedTime = timerClock.getElapsedTime().asSeconds();
-        if (elapsedTime >= 120.0f) { // 2 minutes
+        if (elapsedTime >= 10.0f) { // 2 minutes
             return false;
         }
 
         int minutes = static_cast<int>(elapsedTime) / 60;
         int seconds = static_cast<int>(elapsedTime) % 60;
-        //std::cout << elapsedTime << " " << minutes << " " << seconds << std::endl;
         timerText.setPosition({camera.getCenter().x - camera.getSize().x / 2 + 10, camera.getCenter().y - camera.getSize().y / 2 + 10});
-        timerText.set_text(L"Через столько тебе конец: " + std::to_wstring(1 - minutes) + L"m " + std::to_wstring(59 - seconds) + L"s");
+        timerText.set_text(L"Время тикает: " + std::to_wstring(1 - minutes) + L"m " + std::to_wstring(59 - seconds) + L"s");
         return true;
     }
     void DrawMiniGame(sf::RenderWindow & window){
@@ -205,13 +205,13 @@ public:
         window.display();
     }
     void StartWindow(sf::RenderWindow & window) {
-        camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
+        camera.setSize(WIDTH, HEIGHT);
         camera.setCenter(window.getSize().x/2, window.getSize().y/2);
         Button buttonStart;
         Text t, info;
         info.create(L"Вы только что покинули аудиторию 501ю, следующей парой была физика... \nВы посмотрели время на телефоне и осознали ужасающую реальность.......\nДо начала лекции осталось лишь 2 минуты...\nВаше горе, отчаяние, боль, разочарование и непреодолимый страх не знали границ...  \nИ да время уже идет!", 20, sf::Color::Red, {(window.getSize().x - 64*10)/2, window.getSize().y/2-100}, 0);
         t.create(L"Бежать на физику!!!", 40, sf::Color::Red, {(window.getSize().x - 19*20)/2, window.getSize().y/2+100}, 0);
-        buttonStart.create(L"Бежать на физику!!!", {(window.getSize().x - 19*20)/2, window.getSize().y/2+100}, 0);
+        buttonStart.create(0);
         while(window.isOpen() && !buttonStart.is_clicked(window)) {
             window.clear();
             EventsMiniGame(window);
@@ -220,7 +220,6 @@ public:
             info.draw(window);
             buttonStart.draw(window);
             window.display();
-
         }
     }
     bool checkFinish() {
@@ -231,13 +230,13 @@ public:
         return false;
     }
     void GoodFinish(sf::RenderWindow & window) {
-        camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
+        camera.setSize(WIDTH, HEIGHT);
         camera.setCenter(window.getSize().x/2, window.getSize().y/2);
         Button buttonStart;
         Text t, info;
-        info.create(L"Чудом добравшись до заветной аудитории, \n вы получили множество полезных знаний, которые помогут закрыть долги.", 20, sf::Color::Red, {(window.getSize().x - 50*10)/2, window.getSize().y/2-100}, 0);
-        t.create(L"Полным надежд отправить дальше", 40, sf::Color::Red, {(window.getSize().x - 30*20)/2, window.getSize().y/2+100}, 0);
-        buttonStart.create(L"Полным надежд отправить дальше", {(window.getSize().x - 30*20)/2, window.getSize().y/2+100}, 0);
+        info.create(L"Чудом добравшись до заветной аудитории, \nвы получили множество полезных знаний, которые помогут закрыть долги.", 20, sf::Color::Red, {(window.getSize().x - 60*10)/2, window.getSize().y/2-100}, 0);
+        t.create(L"Полным надежд отправляйся дальше!", 40, sf::Color::Red, {(window.getSize().x - 30*20)/2, window.getSize().y/2+100}, 0);
+        buttonStart.create(0);
         while(window.isOpen() && !buttonStart.is_clicked(window)) {
             window.clear();
             EventsMiniGame(window);
@@ -246,17 +245,16 @@ public:
             info.draw(window);
             buttonStart.draw(window);
             window.display();
-
         }
     }
     void BadFinish(sf::RenderWindow & window) {
-        camera.setSize(CAMERA_SIZE.x, CAMERA_SIZE.y);
+        camera.setSize(WIDTH, HEIGHT);
         camera.setCenter(window.getSize().x/2, window.getSize().y/2);
         Button buttonStart;
         Text t, info;
         info.create(L"Вот и пришел твой конец...", 20, sf::Color::Red, {(window.getSize().x - 30*10)/2, window.getSize().y/2-100}, 0);
-        t.create(L"В отчаянии отправиться дальше", 40, sf::Color::Red, {(window.getSize().x - 30*20)/2, window.getSize().y/2+100}, 0);
-        buttonStart.create(L"В отчаянии отправиться дальше", {(window.getSize().x - 30*20)/2, window.getSize().y/2+100}, 0);
+        t.create(L"В отчаянии отправляйся дальше, сдаваться ещё рано!", 40, sf::Color::Red, {(window.getSize().x - 48*20)/2, window.getSize().y/2+100}, 0);
+        buttonStart.create(0);
         while(window.isOpen() && !buttonStart.is_clicked(window)) {
             window.clear();
             EventsMiniGame(window);
@@ -265,7 +263,6 @@ public:
             info.draw(window);
             buttonStart.draw(window);
             window.display();
-
         }
     }
 
