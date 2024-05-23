@@ -24,6 +24,7 @@ public:
         sprite.setTexture(texture);
         sprite.setColor(sf::Color(255, 255, 255, 0));
         sprite.setPosition({(float)_coords.x, (float)_coords.y});
+        setVisibility(255);
     }
     void setColor(const sf::Color & color){
         sprite.setColor(color);

@@ -29,6 +29,7 @@ public:
         text.setFillColor(color); // выбираем цвет
         text.setStyle(style); // выбираем стиль текста
         text.setPosition(sf::Vector2f(pos));
+        setVisibility(255);
     }
     void set_text(const std::wstring& words){
         text.setString(words);

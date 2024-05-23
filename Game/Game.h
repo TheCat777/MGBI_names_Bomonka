@@ -57,14 +57,14 @@ public:
 //            loadingScene.load();
 //            loadingScene.start(window);
             MiniGame g;
-            std::thread t(show_scene, std::ref(g));
-            t.detach();
+//            std::thread t(show_scene, std::ref(g));
+//            t.detach();
             g.start(window);
         }
-        else if(!true){
+        else if(true){
             Dialog g;
-            std::thread t(show_scene, std::ref(g));
-            t.detach();
+//            std::thread t(show_scene, std::ref(g));
+//            t.detach();
             g.start(window);
         }
         else if(!true){

@@ -121,14 +121,14 @@ public:
 void show_scene(Base_Scene & scene){
     for (unsigned int visibility = 0; visibility <= 255; ++visibility){
         scene.setVisibility(visibility);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
 void hide_scene(Base_Scene & scene){
     for (unsigned int visibility = 255; visibility > 0; --visibility){
         scene.setVisibility(visibility);
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     scene.setVisibility(0);
 }
