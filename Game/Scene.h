@@ -59,7 +59,7 @@ protected:
         Buttons.push_back(but);
     }
 public:
-    virtual void load(){};
+    virtual void load(){} ;
     int start(sf::RenderWindow & window){
         while (window.isOpen() && !stop){
             events(window);
@@ -69,7 +69,8 @@ public:
             }
         }
     }
-    void setVisibility(unsigned int visibility){
+
+    virtual void setVisibility(unsigned int visibility){
         for (auto & i : Texts){
             i.setVisibility(visibility);
         }
@@ -112,23 +113,31 @@ class Good_end_scene : public Base_Scene{
 public:
     void load() override{
         Texture t("good_ending.png", {0, 0});
+        Texture t2("white.png", {0, 0});
         Button but;
         add_button(but);
+        add_texture(t2);
         add_texture(t);
+    }
+    void setVisibility(unsigned int visibility){
+        Textures[0].setVisibility(255);
+        Textures[1].setVisibility(visibility);
     }
 };
 
 void show_scene(Base_Scene & scene){
     for (unsigned int visibility = 0; visibility <= 255; ++visibility){
+        if (scene.stop) return;
         scene.setVisibility(visibility);
-//        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
 void hide_scene(Base_Scene & scene){
     for (unsigned int visibility = 255; visibility > 0; --visibility){
+        if (scene.stop) return;
         scene.setVisibility(visibility);
-//        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     scene.setVisibility(0);
 }
