@@ -16,6 +16,7 @@
 #include "MiniGame.h"
 #include "Thoughts.h"
 #include "Dialog.h"
+#include "MGsleep.h"
 #include "Black hole.h"
 
 
@@ -70,6 +71,10 @@ public:
             Dialog g;
 //            std::thread t(show_scene, std::ref(g));
 //            t.detach();
+            g.start(window);
+        }
+        else if(true){
+            MGsleep g;
             g.start(window);
         }
         else if(!true){
