@@ -47,6 +47,9 @@ public:
     void SetPosition(sf::Vector2i _coords) {
         sprite.setPosition({(float)_coords.x,(float)_coords.y});
     }
+    sf::Vector2f GetPosition() {
+        return sprite.getPosition();
+    }
     bool is_colided(const Texture & another){
         auto first_colider = sprite.getGlobalBounds();
         auto second_colider = another.GetSprite().getGlobalBounds();
