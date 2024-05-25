@@ -19,7 +19,7 @@ struct nowScene
     std::string music;
     int button_count;
     std::vector <std::pair<std::wstring, int>> buttons;
-    std::string sys;
+    int sys;
 };
 class parser{
 private:
@@ -46,7 +46,9 @@ public:
             newline.id = numlines;//std::stoi(time_id);
             numlines++;
 
-            std::getline(iss, newline.sys, '\t');
+            std::string time_sys;
+            std::getline(iss, time_sys, '\t');
+            newline.sys = std::stoi(time_sys);
             
             std::string time_fon;
             std::getline(iss, time_fon, '\t');

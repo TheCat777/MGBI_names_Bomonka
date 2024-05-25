@@ -31,28 +31,18 @@ class Dialog : public Base_Scene{
 
         bool stop = false;
 
-        std::vector<std::string> listFons = {"224l.png", "fon-1.png", "black.png"};
+        std::vector<std::string> listFons = {"korzinov-1.png", "korzinov-2.png", "korzinov-3.png", "black.png",
+        "arkadii-1.png", "arkadii-2.png", "arkadii-3.png",};
     public:
         Dialog() {}
         int start(sf::RenderWindow & window, int id=0){
             parser.load();
             numScene = id;
+
+            Button bnext;
+            bnext.create(0);
+            add_button(bnext);
             
-            /*line.id = 0;
-            line.text = L"Так! Уважаемые студенты!";
-            line.prepod = "Корзинов";
-            line.fon = "Ауд224";
-            line.music = "Zagadka.mp3";
-            line.button_count = 4;
-            line.buttons.push_back(std::make_pair(L"Тише себя вести", 1));
-            line.buttons.push_back(std::make_pair(L"Продолжить болтать", 2));
-            line.buttons.push_back(std::make_pair(L"Поспать", 3));
-            line.buttons.push_back(std::make_pair(L"Открыть тетрадь", 4));*/
-            //line.sys;
-
-            //music.create(line.music, 30.0f, true);
-            //music.play();
-
             load(numScene);
             while (window.isOpen()) {
                 EventsDialog(window);
@@ -66,9 +56,10 @@ class Dialog : public Base_Scene{
         }
 
         void load(int id = 0) {
+            
             line = parser.get(id);
             lock_next = true;
-
+            
             Texture fon;
             fon.create(listFons[line.fon], {0, 0});
             add_texture(fon);
@@ -93,6 +84,10 @@ class Dialog : public Base_Scene{
                 }
                 Text beseda(line.text, 36, sf::Color::Black, {WIDTH/2-480+40, HEIGHT/1.5f+30}, 0);
                 add_text(beseda);
+
+                Button bnext;
+                bnext.create(0);
+                add_button(bnext);
             }
 
             if(line.music != ""){
@@ -104,6 +99,11 @@ class Dialog : public Base_Scene{
                 Button var(line.buttons[i].first, {WIDTH/2-250, HEIGHT/1.8+i*80}, line.buttons[i].second);
                 add_button(var);
             }
+        }
+        void reset(){
+            Textures.clear();
+            Texts.clear();
+            Buttons.clear();
         }
         void EventsDialog(sf::RenderWindow & window){
             for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -117,53 +117,59 @@ class Dialog : public Base_Scene{
                     stop = true;
                     return;
                 }
-                /*if (event.type == sf::Event::MouseButtonPressed)
-                {
-                    if (event.mouseButton.button == sf::Mouse::Left)
-                    {
-                        Textures.clear();
-                        Texts.clear();
-                        Buttons.clear();
-                        numScene++;
-                        load(numScene);
-                    }
-                }*/
             }
             
-
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                 if(!lock_next && line.button_count == 0){
-                    Textures.clear();
-                    Texts.clear();
-                    Buttons.clear();
+                    reset();
                     numScene++;
                     load(numScene);
                 }
             }
             else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                if(!lock_next){
-                    Textures.clear();
-                    Texts.clear();
-                    Buttons.clear();
+                if(!lock_next && numScene > 0){
+                    reset();
                     numScene--;
                     load(numScene);
+                }
+            }
+            else if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+                if(!lock_next){
+                    if(line.button_count == 0){
+                        if(Buttons[0].is_clicked(window)){
+                            reset();
+                            numScene++;
+                            load(numScene);
+                        }
+                    }
+                    else{
+                        for(int i = 0; i < line.button_count; i++){
+                            if(Buttons[i].is_clicked(window)){
+                                reset();
+                                numScene = line.buttons[i].second;
+                                load(numScene);
+                            }
+                        }
+                    }
+
                 }
             }
             else{
                 lock_next = false;
             }
-
-            for(int i = 0; i < line.button_count; i++){
-                if(Buttons[i].is_clicked(window)){
-                    Textures.clear();
-                    Texts.clear();
-                    Buttons.clear();
-                    numScene = line.buttons[i].second;
-                    std::cout << numScene << "\n";
-                    load(numScene);
-                    
-                }
+            if(line.sys > 0){
+                reset();
+                numScene = line.sys;
+                load(numScene);
             }
+
+            
+
+            
+
+
+            //std::cout << stop << " "<< Buttons.size()<<", ";
+            
 
         }
 };
