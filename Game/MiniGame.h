@@ -140,17 +140,17 @@ public:
         Texture pol1;
         Texture pol2;
         Texture pol3;
-        student.create("student.jpg", {100, 100});
-        block.create("block.jpg", {0, 0});
-        floor.create("floor2.png", {0, 0});
+        student.create("playerm.png", {100, 100});
+//        block.create("block.jpg", {0, 0});
+//        floor.create("floor2.png", {0, 0});
 
         add_texture(student);
-        add_texture(block);
-        add_texture(floor);
+//        add_texture(block);
+//        add_texture(floor);
 
-        pol1.create("mg_fiz_pol_1.png", {0, 0});
-        pol2.create("mg_fiz_pol_2.png", {0, 0});
-        pol3.create("mg_fiz_pol_3.png", {0, 0});
+        pol1.create("plitka-1m.png", {0, 0});
+        pol2.create("plitka-2m.png", {0, 0});
+        pol3.create("plitka-3.png", {0, 0});
         add_texture(pol1);
         add_texture(pol2);
         add_texture(pol3);
@@ -166,7 +166,7 @@ public:
         time = time/3200;
 
         elapsedTime = timerClock.getElapsedTime().asSeconds();
-        if (elapsedTime >= 10.0f) { // 2 minutes
+        if (elapsedTime >= 120.0f) { // 2 minutes
             return false;
         }
 
