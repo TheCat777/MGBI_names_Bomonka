@@ -34,8 +34,8 @@ public:
         }
         for (auto& button : Buttons) {
             button.draw(window);
-            if (button.is_clicked(window))
-                return button.get_id();
+            /*if (button.is_clicked(window))
+                return button.get_id();*/
         }
         window.display();
         return INT32_MIN;
