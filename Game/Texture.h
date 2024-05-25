@@ -34,6 +34,9 @@ public:
         temp.a = visibility;
         sprite.setColor(temp);
     }
+    double getVisibility(){
+        return sprite.getColor().a;
+    }
     void draw(sf::RenderWindow & window){
         sprite.setTexture(texture);
         window.draw(sprite);
