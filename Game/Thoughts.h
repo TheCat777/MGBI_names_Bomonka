@@ -38,7 +38,6 @@ enum ThoughtType {
     STATICTHOUGHT,
     RUNTHOUGHT,
     RANDOMMOVETHOUGHT,
-    ROTATETHOUGHT
 };
 int counter = 0;
 
@@ -49,7 +48,6 @@ protected:
     float dx, dy;
     float rotationSpeed;
     bool correct;
-
 public:
     ~TemplateThought() = default;
     virtual void draw(sf::RenderWindow& window) = 0;
@@ -89,7 +87,6 @@ public:
                 texture.SetPosition({-1000, -1000});
                 text.setPosition({-1000, -1000});
                 std::cout << counter << std::endl;
-
             }
             else {
                 counter -= 1;
@@ -121,7 +118,7 @@ public:
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
+        text.create(texts[rand() % 13], 20, sf::Color::Black, {x, y}, 0);
         dx = static_cast<float>(rand() % 5 - 2); // Горизонтальное движение
         dy = static_cast<float>(rand() % 5 - 2); // Вертикальное движение
     }
@@ -149,7 +146,6 @@ public:
     RandomMoveThought() {
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
-
         texture.create("thought.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
         texture.SetOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
@@ -201,16 +197,17 @@ public:
     }
 };
 
-class ThoughtMiniGame {
+class ThoughtMiniGame : public Base_Scene{
 private:
     Text text;
     Texture fon, trash;
     Button but;
+    bool stop;
 public:
     void start(sf::RenderWindow & window) {
         Sound music("Igrivaya.mp3", 10.f, true);
         music.play();
-        trash.create("trash.png", {30, 650});
+        trash.create("trash.png", {30, 630});
         fon.create("seminar.png", {0, 0});
         srand(time(NULL));
         std::vector<TemplateThought*> thoughts;
@@ -219,7 +216,7 @@ public:
             temp->setCorrect(true);
             thoughts.push_back(temp);
         }
-        while(window.isOpen()) {
+        while(window.isOpen() && !stop) {
             window.clear();
             Events(window);
             Draw(window, thoughts);
@@ -231,20 +228,17 @@ public:
             }
             window.display();
         }
-
     }
     void Finish(sf::RenderWindow & window) {
         but.create(0);
         text.create(L"Фух... наконец смог сосредоточиться, вряд ли конечно это поможет...", 40, sf::Color::Black, {50, 600}, 0);
         fon.create("seminar.png", {0, 0});
-
-        while(window.isOpen()) {
+        while(window.isOpen() && !stop) {
             window.clear();
             Events(window);
             fon.draw(window);
             text.draw(window);
             but.draw(window);
-
             window.display();
         }
     }
@@ -256,20 +250,19 @@ public:
             s->mouseMoving(window);
             s->action(window);
         }
-        //window.display();
     }
     void Events(sf::RenderWindow & window){
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
-                    window.close();
+                    stop = true;
                 }
                 if (event.key.code == sf::Keyboard::Space) {
-                    window.close();
+                    stop = true;
                 }
             }
             if (event.type == sf::Event::Closed) {
-                window.close();
+                stop = true;
             }
         }
     }
