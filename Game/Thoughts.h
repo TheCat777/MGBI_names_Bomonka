@@ -17,13 +17,13 @@
 #include <vector>
 
 const std::wstring texts[] = {
-        L"Привет!",
-        L"абоба",
-        L"Добро пожаловать!",
-        L"Случайный текст",
-        L"Программирование",
-        L"SFML",
-        L"Фигуры и текст"
+        L"Что за пара идет?",
+        L"лалалалал",
+        L"СпАтЬ хочу!",
+        L"2+2=5",
+        L"Какие дифуры?",
+        L"Помогите",
+        L"Что я тут делаю?"
 };
 
 
@@ -95,8 +95,8 @@ public:
 class StaticThought : public TemplateThought {
 public:
     StaticThought() {
-        unsigned int x = rand() % WIDTH + 1;
-        unsigned int y = rand() % HEIGHT + 1;
+        unsigned int x = rand() % (WIDTH-50) + 1;
+        unsigned int y = rand() % (HEIGHT-50) + 1;
         texture.create("student.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
     }
@@ -194,11 +194,18 @@ public:
 };
 
 class ThoughtMiniGame {
+private:
+    Text text;
+    Texture fon;
+    Button but;
 public:
     void start(sf::RenderWindow & window) {
+        Sound music("Igrivaya.mp3", 10.f, true);
+        music.play();
+        fon.create("seminar.png", {0, 0});
         srand(time(NULL));
         std::vector<TemplateThought*> thoughts;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 50; i++) {
             TemplateThought* temp = FactoryThought::createThought();
             temp->setCorrect(true);
             thoughts.push_back(temp);
@@ -207,22 +214,45 @@ public:
             window.clear();
             Events(window);
             Draw(window, thoughts);
+            if(counter == 50) {
+                music.set_path("Cvetok.mp3");
+                music.play();
+                Finish(window);
+                break;
+            }
+            window.display();
         }
-        //for (auto t : thoughts) { delete t; }
-    }
 
+    }
+    void Finish(sf::RenderWindow & window) {
+        but.create(0);
+        text.create(L"Фух... наконец смог сосредоточиться, вряд ли конечно это поможет...", 40, sf::Color::Black, {50, 600}, 0);
+        fon.create("seminar.png", {0, 0});
+        while(window.isOpen()) {
+            window.clear();
+            Events(window);
+            fon.draw(window);
+            text.draw(window);
+            but.draw(window);
+            window.display();
+        }
+    }
     void Draw(sf::RenderWindow & window, std::vector<TemplateThought*> thoughts) {
+        fon.draw(window);
         for (auto s : thoughts) {
             s->draw(window);
             s->mouseMoving(window);
             s->action(window);
         }
-        window.display();
+        //window.display();
     }
     void Events(sf::RenderWindow & window){
         for (auto event = sf::Event{}; window.pollEvent(event);) {
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
+                    window.close();
+                }
+                if (event.key.code == sf::Keyboard::Space) {
                     window.close();
                 }
             }
