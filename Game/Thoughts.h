@@ -33,16 +33,20 @@ enum ThoughtType {
     RANDOMMOVETHOUGHT,
     ROTATETHOUGHT
 };
+int counter = 0;
+
 class TemplateThought {
 protected:
     Texture texture;
     Text text;
     float dx, dy;
     float rotationSpeed;
+    bool correct;
+
 public:
+    ~TemplateThought() = default;
     virtual void draw(sf::RenderWindow& window) = 0;
     virtual void move(sf::RenderWindow& window) = 0;
-    virtual void action() = 0;
     bool is_pointed(sf::RenderWindow & window) {
         sf::Vector2i position = sf::Mouse::getPosition() - window.getPosition();
         if (texture.GetPosition().x < position.x && position.x < texture.GetPosition().x + texture.get_size().x
@@ -65,6 +69,27 @@ public:
             text.setPosition({static_cast<float>(mousePos.x-size.x/2), static_cast<float>(mousePos.y-size.y/2)});
         }
     }
+    void setCorrect(bool cor) {
+        correct = cor;
+    }
+    bool getCorrect() const {
+        return correct;
+    }
+    void action(sf::RenderWindow & window) {
+        if (fabs(texture.GetPosition().x) <= 100 && fabs(texture.GetPosition().y - 720) <= 100 && is_clicked(window)) {
+            if (getCorrect()) {
+                counter += 1;
+                texture.SetPosition({-1000, -1000});
+                text.setPosition({-1000, -1000});
+                std::cout << counter << std::endl;
+
+            }
+            else {
+                counter -= 1;
+                std::cout << counter << std::endl;
+            };
+        }
+    }
 };
 
 class StaticThought : public TemplateThought {
@@ -81,7 +106,7 @@ public:
     }
 
     void move(sf::RenderWindow& window) override {}
-    void action() override {}
+
 };
 class RunThought : public TemplateThought{
 public:
@@ -110,7 +135,7 @@ public:
         texture.draw(window);
         text.draw(window);
     }
-    void action() override {}
+
 };
 class RandomMoveThought : public TemplateThought{
 public:
@@ -121,7 +146,7 @@ public:
         texture.create("student.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
         texture.SetOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
-        
+
         dx = static_cast<float>(rand() % 5 - 2); // Горизонтальное движение
         dy = static_cast<float>(rand() % 5 - 2); // Вертикальное движение
         rotationSpeed = static_cast<float>(rand() % 5 - 2);
@@ -146,8 +171,9 @@ public:
         texture.draw(window);
         text.draw(window);
     }
-    void action() override {}
+
 };
+
 class FactoryThought {
 public:
     static TemplateThought* createThought() {
@@ -164,16 +190,18 @@ public:
                 th = new RandomMoveThought();
                 return th;
         }
-
     }
 };
+
 class ThoughtMiniGame {
 public:
     void start(sf::RenderWindow & window) {
         srand(time(NULL));
         std::vector<TemplateThought*> thoughts;
         for (int i = 0; i < 20; i++) {
-            thoughts.push_back(FactoryThought::createThought());
+            TemplateThought* temp = FactoryThought::createThought();
+            temp->setCorrect(true);
+            thoughts.push_back(temp);
         }
         while(window.isOpen()) {
             window.clear();
@@ -182,10 +210,12 @@ public:
         }
         //for (auto t : thoughts) { delete t; }
     }
+
     void Draw(sf::RenderWindow & window, std::vector<TemplateThought*> thoughts) {
         for (auto s : thoughts) {
             s->draw(window);
             s->mouseMoving(window);
+            s->action(window);
         }
         window.display();
     }
