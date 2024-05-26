@@ -123,7 +123,7 @@ class MGsleep : public Base_Scene{
                 opacity = 255;
             }
             
-            if(Timer.getElapsedTime().asSeconds() > 60 && opacity < 255){
+            if(Timer.getElapsedTime().asSeconds() > 40 && opacity < 255){
                 slide = 2;
             }
             
@@ -139,7 +139,7 @@ class MGsleep : public Base_Scene{
             else{
                 lock_next = false;
             }
-            Texts[2].set_text(L"До конца пары: "+std::to_wstring(60-int(Timer.getElapsedTime().asSeconds()))+L" минут");
+            Texts[2].set_text(L"До конца пары: "+std::to_wstring(40-int(Timer.getElapsedTime().asSeconds()))+L" минут");
         }
         int random(int s, int e){
             return rand() % (e - s + 1) + s;
