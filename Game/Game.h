@@ -15,10 +15,9 @@
 #include "Scene.h"
 #include "MiniGame.h"
 #include "Thoughts.h"
-#include "Dialog.h"
 #include "MGsleep.h"
 #include "Black hole.h"
-
+#include "Dialog.h"
 
 class MainGame{
 private:
@@ -63,11 +62,11 @@ public:
 //            t.detach();
             g.start(window);
         }
-        else if(true) {
+        else if(!true) {
             ThoughtMiniGame t;
             t.start(window);
         }
-        else if(!true){
+        else if(true){
             Dialog g;
 //            std::thread t(show_scene, std::ref(g));
 //            t.detach();
