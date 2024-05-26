@@ -54,7 +54,7 @@ public:
     MainGame(){
         if (!load_settings()) return;
         init_window();
-        if (true) {
+        if (!true) {
 //            Loading_Scene loadingScene;
 //            loadingScene.load();
 //            loadingScene.start(window);
@@ -63,7 +63,7 @@ public:
 //            t.detach();
             g.start(window);
         }
-        else if(!true) {
+        else if(true) {
             ThoughtMiniGame t;
             t.start(window);
         }

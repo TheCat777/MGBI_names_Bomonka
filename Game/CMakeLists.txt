@@ -9,7 +9,7 @@ set(${project}_SOURCES
         Game.cpp)
 
 set(${project}_HEADERS
-        "Black hole.h" Button.h Constants.h Dialog.h Game.h MiniGame.h Parser.h Scene.h Sound.h Text.h Texture.h Kaleidoscope.h)
+        "Black hole.h" Button.h Constants.h Dialog.h Game.h MiniGame.h Parser.h Scene.h Sound.h Text.h Texture.h Kaleidoscope.h Thoughts.h)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}

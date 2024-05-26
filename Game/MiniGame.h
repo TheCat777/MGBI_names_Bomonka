@@ -148,8 +148,8 @@ public:
 //        add_texture(block);
 //        add_texture(floor);
 
-        pol1.create("plitka-1m.png", {0, 0});
-        pol2.create("plitka-2m.png", {0, 0});
+        pol1.create("plitka-2m.png", {0, 0});
+        pol2.create("plitka-1m.png", {0, 0});
         pol3.create("plitka-3.png", {0, 0});
         add_texture(pol1);
         add_texture(pol2);

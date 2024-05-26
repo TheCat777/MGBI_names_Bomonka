@@ -34,15 +34,21 @@ public:
         temp.a = visibility;
         sprite.setColor(temp);
     }
-    double getVisibility(){
+    double getVisibility () {
         return sprite.getColor().a;
     }
-    void draw(sf::RenderWindow & window){
+    void draw (sf::RenderWindow & window){
         sprite.setTexture(texture);
         window.draw(sprite);
     }
-    void move(float x, float y) {
+    void move (float x, float y) {
         sprite.move(x, y);
+    }
+    void SetOrigin(float x, float y) {
+        sprite.setOrigin(x, y);
+    }
+    void rotate (float rotationSpeed) {
+        sprite.rotate(rotationSpeed);
     }
     sf::Sprite GetSprite() const {
         return sprite;

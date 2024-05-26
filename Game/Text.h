@@ -49,6 +49,12 @@ public:
     sf::Vector2f getSize() {
         return {text.getGlobalBounds().width, text.getGlobalBounds().height};
     }
+    void move(float x, float y) {
+        text.move(x, y);
+    }
+    void rotate (float rotationSpeed) {
+        text.rotate(rotationSpeed);
+    }
 };
 
 #endif //MGBI_BOMONKA_TEXT_H
