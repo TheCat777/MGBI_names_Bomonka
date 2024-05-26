@@ -202,7 +202,7 @@ private:
     Text text;
     Texture fon, trash;
     Button but;
-    bool stop;
+    bool stop = false;
 public:
     void start(sf::RenderWindow & window) {
         Sound music("Igrivaya.mp3", 10.f, true);

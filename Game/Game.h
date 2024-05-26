@@ -72,7 +72,7 @@ public:
 //            t.detach();
             g.start(window);
         }
-        else if(true){
+        else if(!true){
             MGsleep g;
             g.start(window);
         }

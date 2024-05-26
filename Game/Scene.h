@@ -25,7 +25,7 @@ public:
     std::vector<Text> Texts;
     std::vector<Button> Buttons;
 
-    int draw_all(sf::RenderWindow & window){
+    virtual int draw_all(sf::RenderWindow & window){
         window.clear();
         for (auto& texture : Textures)
             texture.draw(window);
@@ -34,8 +34,6 @@ public:
         }
         for (auto& button : Buttons) {
             button.draw(window);
-            /*if (button.is_clicked(window))
-                return button.get_id();*/
         }
         window.display();
         return INT32_MIN;
@@ -107,13 +105,30 @@ public:
         add_button(but);
         add_texture(t);
     }
+    int draw_all(sf::RenderWindow & window){
+        window.clear();
+        for (auto& texture : Textures)
+            texture.draw(window);
+        for (auto& text : Texts) {
+            text.draw(window);
+        }
+        for (auto& button : Buttons) {
+            button.draw(window);
+            if (button.is_clicked(window))
+                return button.get_id();
+        }
+        window.display();
+        return INT32_MIN;
+    }
 };
 
 class Good_end_scene : public Base_Scene{
 public:
     void load() override{
         Texture t("good_ending.png", {0, 0});
+        t.setVisibility(0);
         Texture t2("white.png", {0, 0});
+        t2.setVisibility(0);
         Button but;
         add_button(but);
         add_texture(t2);
@@ -122,6 +137,21 @@ public:
     void setVisibility(unsigned int visibility){
         Textures[0].setVisibility(255);
         Textures[1].setVisibility(visibility);
+    }
+    int draw_all(sf::RenderWindow & window){
+        window.clear();
+        for (auto& texture : Textures)
+            texture.draw(window);
+        for (auto& text : Texts) {
+            text.draw(window);
+        }
+        for (auto& button : Buttons) {
+            button.draw(window);
+            if (button.is_clicked(window))
+                return button.get_id();
+        }
+        window.display();
+        return INT32_MIN;
     }
 };
 

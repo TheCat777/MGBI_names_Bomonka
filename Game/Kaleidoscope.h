@@ -52,17 +52,18 @@ public:
         window.setMouseCursorVisible(false);
 
         sf::Transform transform;
+        float t = clock();
 
         fragShader.setUniform("resolution", size_of_window);
         while (window.isOpen() && !stop) {
             Events(window);
 
-            fragShader.setUniform("iTime", (float)clock() / CLOCKS_PER_SEC);
+            fragShader.setUniform("iTime", ((float)clock() - t) / CLOCKS_PER_SEC);
 
             window.clear();
             window.draw(rect, shader);
             window.display();
-            if (std::fabs(((float)clock() / CLOCKS_PER_SEC) - 21) < 0.1){
+            if (std::fabs((((float)clock() - t) / CLOCKS_PER_SEC) - 21) < 0.1){
                 stop = true;
             }
         }

@@ -196,11 +196,11 @@ class Dialog : public Base_Scene{
                     Sound sound("Bad ending2.mp3", 15.f, true);
                     sound.play();
                     blackHole.start(window);
-                    //std::thread t(show_scene, std::ref(scene));
-                    //t.detach();
+                    std::thread t(show_scene, std::ref(scene));
+                    t.detach();
                     scene.start(window);
 
-                    load(numScene);
+                    stop = true;
                 }
                 else if(line.sys == -5){
                     music.pause();
@@ -213,21 +213,13 @@ class Dialog : public Base_Scene{
                     Sound sound("Skaneika.mp3", 20.f, true);
                     sound.play();
                     good_scene.start(window);
-                    //std::thread t(show_scene, std::ref(scene));
-                    //t.detach();
+                    std::thread t(show_scene, std::ref(scene));
+                    t.detach();
                     scene.start(window);
 
-                    load(numScene);
+                    stop = true;
                 }
             }
-
-            
-
-            
-
-
-            //std::cout << stop << " "<< Buttons.size()<<", ";
-            
 
         }
 };

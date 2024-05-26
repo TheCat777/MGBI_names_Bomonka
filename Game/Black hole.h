@@ -95,7 +95,7 @@ public:
             t = clock();
             move_Mouse(const_x, const_y, window.getSize());
             if (std::fabs(cameraPosition.x) + std::fabs(cameraPosition.y) + std::fabs(cameraPosition.z) < 1.1){
-                return;
+                break;
             }
             Events(window);
             cameraDirection.x = (float) -sf::Mouse::getPosition().x / 150 + const_x;
