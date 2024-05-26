@@ -102,7 +102,7 @@ public:
         unsigned int x = rand() % (WIDTH-50) + 1;
         unsigned int y = rand() % (HEIGHT-50) + 1;
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
+        text.create(texts[rand() % 13], 20, sf::Color::Black, {x, y}, 0);
     }
     void draw(sf::RenderWindow& window) override {
         texture.draw(window);
@@ -147,7 +147,7 @@ public:
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
+        text.create(texts[rand() % 13], 20, sf::Color::Black, {x, y}, 0);
         texture.SetOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
         text.setOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
 
