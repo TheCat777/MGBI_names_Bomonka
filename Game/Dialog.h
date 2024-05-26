@@ -162,6 +162,64 @@ class Dialog : public Base_Scene{
                 numScene = line.sys;
                 load(numScene);
             }
+            
+            else if(line.sys < 0){
+                if(line.sys == -1){
+                    music.pause();
+                    numScene++;
+                    MGsleep g;
+                    g.start(window);
+                    load(numScene);
+                }
+                else if(line.sys == -2){
+                    music.pause();
+                    numScene++;
+                    MiniGame g;
+                    g.start(window);
+                    load(numScene);
+                }
+                else if(line.sys == -3){
+                    music.pause();
+                    numScene++;
+                    ThoughtMiniGame g;
+                    g.start(window);
+                    load(numScene);
+                }
+                else if(line.sys == -4){
+                    music.pause();
+                    numScene++;
+                    
+                    Black_hole blackHole;
+                    Bad_end_scene scene;
+                    scene.load();
+                    scene.setVisibility(0);
+                    Sound sound("Bad ending2.mp3", 15.f, true);
+                    sound.play();
+                    blackHole.start(window);
+                    //std::thread t(show_scene, std::ref(scene));
+                    //t.detach();
+                    scene.start(window);
+
+                    load(numScene);
+                }
+                else if(line.sys == -5){
+                    music.pause();
+                    numScene++;
+                    
+                    Good_end_scene scene;
+                    scene.load();
+                    scene.setVisibility(0);
+                    Kaleidoscope good_scene;
+                    Sound sound("Skaneika.mp3", 20.f, true);
+                    sound.play();
+                    good_scene.start(window);
+                    //std::thread t(show_scene, std::ref(scene));
+                    //t.detach();
+                    scene.start(window);
+
+                    load(numScene);
+                }
+            }
 
             
 
