@@ -65,10 +65,12 @@ class MGsleep : public Base_Scene{
             fon.create("korzinov-2.png", {0, 0});
             add_texture(fon);
             
-            Text info(L"Нажимайте на кнопку, чтобы бороться со сном", 28, sf::Color{0xAAAAFFFF}, {WIDTH/6-10, HEIGHT/1.3f}, 0);
+            Text info(L"Нажимайте на кнопку, чтобы бороться со сном", 28, sf::Color{0x0047abFF}, {WIDTH/6-10, HEIGHT/1.3f}, 0);
             add_text(info);
             Text fraz(fraza[random(0, fraza.size()-1)], 28, sf::Color{0xFFFFFFFF}, {WIDTH/6-10, HEIGHT/10}, 0);
             add_text(fraz);
+            Text timer(L"", 28, sf::Color{0xFFFFFFFF}, {WIDTH/1.5-10, HEIGHT/10}, 0);
+            add_text(timer);
 
             Texture son;
             son.create("black.png", {0, 0});
@@ -79,7 +81,7 @@ class MGsleep : public Base_Scene{
             bnext.create(0);
             add_button(bnext);
             
-            music.create("Lirika.mp3", 30.0f, true);
+            music.create("Cvetok.mp3", 30.0f, true);
             music.play();
         }
         double dt(){
@@ -121,7 +123,7 @@ class MGsleep : public Base_Scene{
                 opacity = 255;
             }
             
-            if(Timer.getElapsedTime().asSeconds() > 120 && opacity < 255){
+            if(Timer.getElapsedTime().asSeconds() > 60 && opacity < 255){
                 slide = 2;
             }
             
@@ -137,6 +139,7 @@ class MGsleep : public Base_Scene{
             else{
                 lock_next = false;
             }
+            Texts[2].set_text(L"До конца пары: "+std::to_wstring(60-int(Timer.getElapsedTime().asSeconds()))+L" минут");
         }
         int random(int s, int e){
             return rand() % (e - s + 1) + s;
