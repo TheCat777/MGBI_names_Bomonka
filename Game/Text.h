@@ -55,6 +55,9 @@ public:
     void rotate (float rotationSpeed) {
         text.rotate(rotationSpeed);
     }
+    void setOrigin(float x, float y) {
+        text.setOrigin(x, y);
+    }
 };
 
 #endif //MGBI_BOMONKA_TEXT_H

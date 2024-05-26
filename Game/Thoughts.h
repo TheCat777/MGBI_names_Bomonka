@@ -17,13 +17,20 @@
 #include <vector>
 
 const std::wstring texts[] = {
-        L"Что за пара идет?",
+        L"пара идет?",
         L"лалалалал",
         L"СпАтЬ хочу!",
         L"2+2=5",
         L"Какие дифуры?",
         L"Помогите",
-        L"Что я тут делаю?"
+        L"Что я тут делаю?",
+        L"Какие дифуры?",
+        L"Какие дифуры?",
+        L"Какие дифуры?",
+        L"Какие дифуры?",
+        L"Какие дифуры?",
+        L"Какие дифуры?",
+        L"Какие дифуры?"
 };
 
 
@@ -97,7 +104,7 @@ public:
     StaticThought() {
         unsigned int x = rand() % (WIDTH-50) + 1;
         unsigned int y = rand() % (HEIGHT-50) + 1;
-        texture.create("student.jpg", {x, y});
+        texture.create("thought.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
     }
     void draw(sf::RenderWindow& window) override {
@@ -113,7 +120,7 @@ public:
     RunThought() {
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
-        texture.create("student.jpg", {x, y});
+        texture.create("thought.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
         dx = static_cast<float>(rand() % 5 - 2); // Горизонтальное движение
         dy = static_cast<float>(rand() % 5 - 2); // Вертикальное движение
@@ -143,9 +150,10 @@ public:
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
 
-        texture.create("student.jpg", {x, y});
+        texture.create("thought.jpg", {x, y});
         text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
         texture.SetOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
+        text.setOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
 
         dx = static_cast<float>(rand() % 5 - 2); // Горизонтальное движение
         dy = static_cast<float>(rand() % 5 - 2); // Вертикальное движение
@@ -196,12 +204,13 @@ public:
 class ThoughtMiniGame {
 private:
     Text text;
-    Texture fon;
+    Texture fon, trash;
     Button but;
 public:
     void start(sf::RenderWindow & window) {
         Sound music("Igrivaya.mp3", 10.f, true);
         music.play();
+        trash.create("trash.png", {30, 650});
         fon.create("seminar.png", {0, 0});
         srand(time(NULL));
         std::vector<TemplateThought*> thoughts;
@@ -228,17 +237,20 @@ public:
         but.create(0);
         text.create(L"Фух... наконец смог сосредоточиться, вряд ли конечно это поможет...", 40, sf::Color::Black, {50, 600}, 0);
         fon.create("seminar.png", {0, 0});
+
         while(window.isOpen()) {
             window.clear();
             Events(window);
             fon.draw(window);
             text.draw(window);
             but.draw(window);
+
             window.display();
         }
     }
     void Draw(sf::RenderWindow & window, std::vector<TemplateThought*> thoughts) {
         fon.draw(window);
+        trash.draw(window);
         for (auto s : thoughts) {
             s->draw(window);
             s->mouseMoving(window);

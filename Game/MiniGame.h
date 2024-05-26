@@ -22,7 +22,7 @@ const sf::Vector2f CAMERA_SIZE = {960, 540};
 const sf::Vector2f CAMERA_BORDER_TOP = {480, 270};
 const sf::Vector2f CAMERA_BORDER_BOTTOM = {2720, 2730};
 const sf::Vector2u FINISH_COORDS = {2120, 2350};
-const sf::Vector2f DRAWING_BORDER = {530, 330};  // циферки всякие
+const sf::Vector2f DRAWING_BORDER = {560, 360};  // циферки всякие
 
 sf::String Map[HEIGHT_MAP] = {
         "0000000000000000000000000000000000000000000000000000000000000000",
@@ -123,6 +123,8 @@ public:
             DrawMiniGame(window);
         }
         if(finish) {
+            music.set_path("Cvetok.mp3");
+            music.play();
             GoodFinish(window);
         }
         else {
@@ -141,12 +143,8 @@ public:
         Texture pol2;
         Texture pol3;
         student.create("playerm.png", {100, 100});
-//        block.create("block.jpg", {0, 0});
-//        floor.create("floor2.png", {0, 0});
 
         add_texture(student);
-//        add_texture(block);
-//        add_texture(floor);
 
         pol1.create("plitka-2m.png", {0, 0});
         pol2.create("plitka-1m.png", {0, 0});
@@ -191,10 +189,6 @@ public:
                         Textures[2].SetPosition({j * 50, i * 50});
                         Textures[2].draw(window);
                     }
-//                    else if (Map[i][j] == '2' || Map[i][j] == '3' || Map[i][j] == '1'){
-//                        Textures[3].SetPosition({j * 50, i * 50});
-//                        Textures[3].draw(window);
-//                    }
                 }
             }
         }
