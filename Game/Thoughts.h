@@ -24,13 +24,13 @@ const std::wstring texts[] = {
         L"Какие дифуры?",
         L"Помогите",
         L"Что я тут делаю?",
-        L"Какие дифуры?",
-        L"Какие дифуры?",
-        L"Какие дифуры?",
-        L"Какие дифуры?",
-        L"Какие дифуры?",
-        L"Какие дифуры?",
-        L"Какие дифуры?"
+        L"C++",
+        L"определитель\nматрицы",
+        L"ЭКЗАМЕНЫ",
+        L"y = f(x)",
+        L"инкапсуляция",
+        L"operator\noverloading",
+        L"Factory\nPattren"
 };
 
 
@@ -105,7 +105,7 @@ public:
         unsigned int x = rand() % (WIDTH-50) + 1;
         unsigned int y = rand() % (HEIGHT-50) + 1;
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
+        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
     }
     void draw(sf::RenderWindow& window) override {
         texture.draw(window);
@@ -121,7 +121,7 @@ public:
         unsigned int x = rand() % WIDTH + 1;
         unsigned int y = rand() % HEIGHT + 1;
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
+        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
         dx = static_cast<float>(rand() % 5 - 2); // Горизонтальное движение
         dy = static_cast<float>(rand() % 5 - 2); // Вертикальное движение
     }
@@ -151,7 +151,7 @@ public:
         unsigned int y = rand() % HEIGHT + 1;
 
         texture.create("thought.jpg", {x, y});
-        text.create(texts[rand() % 6], 20, sf::Color::Red, {x, y}, 0);
+        text.create(texts[rand() % 6], 20, sf::Color::Black, {x, y}, 0);
         texture.SetOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
         text.setOrigin(texture.get_size().x / 2, texture.get_size().y / 2);
 
